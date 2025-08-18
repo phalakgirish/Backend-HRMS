@@ -1,0 +1,49 @@
+import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ComplaintService } from './complaint.service';
+import { CreateComplaintDto } from './dto/create-complaint.dto';
+import { Complaint } from './schema/complaint.schema';
+
+@ApiTags('complaint')
+@Controller('complaint')
+export class ComplaintController {
+  constructor(private readonly complaintService: ComplaintService) {}
+    
+
+  @Post()
+  @ApiOperation({ summary: 'Create a complaint' })
+  @ApiResponse({ status: 201, description: 'The complaint has been created.', type: Complaint })
+  create(@Body() createComplaintDto: CreateComplaintDto): Promise<Complaint> {
+    return this.complaintService.create(createComplaintDto);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Get all complaint' })
+  findAll(): Promise<Complaint[]> {
+    return this.complaintService.findAll();
+  }
+
+  
+  @Put(':id')
+  @ApiOperation({ summary: 'Update complaint' })
+  @ApiResponse({ status: 200, description: 'complaint updated successfully' })
+  async update(@Param('id') id: string, @Body() body: any) {
+    try {
+      console.log('Updating complaint with ID:', id);
+      console.log('Update data:', body);
+      return await this.complaintService.update(id, body);
+    } catch (err) {
+      console.error('Update failed:', err);
+      throw new InternalServerErrorException('Something went wrong');
+    }
+  }
+  
+
+  
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a complaint' })
+  async delete(@Param('id') id: string) {
+    return this.complaintService.delete(id);
+  }
+  
+}
