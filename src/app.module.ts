@@ -27,6 +27,11 @@ import { TrainersListModule } from './Training/trainersList/trainersList.module'
 import { TrainingListModule } from './Training/trainingList/trainingList.module';
 import { TrainingTypeModule } from './Training/trainingType/trainingType.module';
 import { UpdateAttendanceModule } from './Timesheet/updateAttendance/updateAttendance.module';
+import { FilesManagerModule } from './FilesManager/filesmanager.module';
+import { ProjectsModule } from './Projects/projects.module';
+import { SupportRequestModule } from './supportRequest/supportRequest.module';
+import { ConstantsModule } from './constants/constants.module';
+import { FilesModule } from './filesSupportReq/files.module';
 
 @Module({
   imports: [MongooseModule.forRoot('mongodb://localhost:27017/hrms-api'),
@@ -34,7 +39,7 @@ import { UpdateAttendanceModule } from './Timesheet/updateAttendance/updateAtten
     AuthModule, AwardsModule, ResignationModule,PromotionModule, ComplaintModule, WarningsModule, TravelModule,
     ExpenseModule, TerminationModule, EmployeeExitModule, LocationModule, EmployeeModule, LeaveModule, HolidayModule, 
     TransferModule,PerformanceIndicatorModule, PerformanceAppraisalModule , TrainersListModule, TrainingTypeModule,
-    UpdateAttendanceModule, 
+    UpdateAttendanceModule, FilesManagerModule, ProjectsModule, SupportRequestModule , ConstantsModule, FilesModule,
     TrainingListModule],
   controllers: [AppController],
   providers: [AppService],
