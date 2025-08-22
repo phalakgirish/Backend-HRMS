@@ -31,6 +31,12 @@ export class TrainingList {
 
      @Prop()
     description: string;
+
+     @Prop()
+    performance: string;
+
+     @Prop()
+    remarks: string;
 }
 
 export const TrainingListSchema = SchemaFactory.createForClass(TrainingList);

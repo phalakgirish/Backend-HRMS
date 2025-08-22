@@ -32,6 +32,9 @@ export class File {
 
   @Prop({ default: Date.now })
   createdAt: Date;
+
+   @Prop({ required: true })
+  entryId: string; 
 }
 
 export const FilesSchema = SchemaFactory.createForClass(File);

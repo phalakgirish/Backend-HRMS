@@ -1,8 +1,9 @@
-import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete, Patch } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { TrainingListService } from './trainingList.service';
 import { CreateTrainingListDto } from './dto/create-trainingList.dto';
 import { TrainingList } from './schema/trainingList.schema';
+import { UpdateTrainingListDto } from './dto/update-trainingList.dto';
 
 @ApiTags('training-list')
 @Controller('training-list')
@@ -43,4 +44,14 @@ export class TrainingListController {
     async delete(@Param('id') id: string) {
         return this.trainingListService.delete(id);
     }
+
+    // training.controller.ts
+@Patch(':id')
+async updateTraining(
+  @Param('id') id: string,
+  @Body() updateTrainingDto: UpdateTrainingListDto
+) {
+  return this.trainingListService.update(id, updateTrainingDto);
+}
+
 }
