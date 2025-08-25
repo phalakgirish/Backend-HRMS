@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete, Patch } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LeaveService } from './leave.service';
 import { CreateLeaveDto } from './dto/create-leave.dto';
@@ -38,6 +38,10 @@ export class LeaveController {
     }
   }
   
+// @Patch(':id')
+// update(@Param('id') id: string, @Body() updateLeaveDto: UpdateLeaveDto) {
+//   return this.leaveService.update(id, updateLeaveDto);
+// }
 
   
   @Delete(':id')

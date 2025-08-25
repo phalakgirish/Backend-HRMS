@@ -1,6 +1,5 @@
-// create-leave.dto.ts
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, IsDateString, IsOptional } from "class-validator";
+import { IsNotEmpty, IsString, IsDateString, IsOptional, IsNumber } from "class-validator";
 import { Transform } from "class-transformer";
 
 export class CreateLeaveDto {
@@ -21,12 +20,12 @@ export class CreateLeaveDto {
   requestDuration: string;
 
   @ApiProperty()
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  days: string;
+  days: number;
 
   @ApiProperty()
-  @IsDateString() // ✅ Better validation for dates
+  @IsDateString()
   @IsNotEmpty()
   appliedOn: string;
 
@@ -40,13 +39,19 @@ export class CreateLeaveDto {
   @IsNotEmpty()
   reason: string;
 
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  status: string;
+ @ApiProperty({ required: false })
+@IsOptional()
+@IsString()
+status?: string;
+
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   addedBy?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  remarks?: string;
 }
