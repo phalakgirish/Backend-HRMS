@@ -34,6 +34,7 @@ import { ConstantsModule } from './constants/constants.module';
 import { FilesModule } from './filesSupportReq/files.module';
 import { SetRolesModule } from './SetRoles/setRoles.module';
 import { JobCandidateModule } from './jobCandidate/JobCandidate.module';
+import { EmailTemplateModule } from './emailTemplate/emailTemplate.module';
 
 @Module({
   imports: [MongooseModule.forRoot('mongodb://localhost:27017/hrms-api'),
@@ -42,7 +43,7 @@ import { JobCandidateModule } from './jobCandidate/JobCandidate.module';
     ExpenseModule, TerminationModule, EmployeeExitModule, LocationModule, EmployeeModule, LeaveModule, HolidayModule, 
     TransferModule,PerformanceIndicatorModule, PerformanceAppraisalModule , TrainersListModule, TrainingTypeModule,
     UpdateAttendanceModule, FilesManagerModule, ProjectsModule, SupportRequestModule , ConstantsModule, FilesModule,
-    TrainingListModule, SetRolesModule, JobCandidateModule],
+    TrainingListModule, SetRolesModule, JobCandidateModule, EmailTemplateModule],
   controllers: [AppController],
   providers: [AppService],
 })
