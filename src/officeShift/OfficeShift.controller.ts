@@ -1,0 +1,49 @@
+import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { OfficeShiftService } from './OfficeShift.service';
+import { CreateOfficeShiftDto } from './dto/create-officeShift.dto';
+import { OfficeShift } from './schema/officeShift.schema';
+
+@ApiTags('office-shift')
+@Controller('office-shift')
+export class OfficeShiftController {
+  constructor(private readonly officeShiftService: OfficeShiftService) {}
+    
+
+  @Post()
+  @ApiOperation({ summary: 'Create a termination' })
+  @ApiResponse({ status: 201, description: 'The termination has been created.', type: OfficeShift })
+  create(@Body() createOfficeShiftDto: CreateOfficeShiftDto): Promise<OfficeShift> {
+    return this.officeShiftService.create(createOfficeShiftDto);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Get all termination' })
+  findAll(): Promise<OfficeShift[]> {
+    return this.officeShiftService.findAll();
+  }
+
+  
+  @Put(':id')
+  @ApiOperation({ summary: 'Update termination' })
+  @ApiResponse({ status: 200, description: 'termination updated successfully' })
+  async update(@Param('id') id: string, @Body() body: any) {
+    try {
+      console.log('Updating termination with ID:', id);
+      console.log('Update data:', body);
+      return await this.officeShiftService.update(id, body);
+    } catch (err) {
+      console.error('Update failed:', err);
+      throw new InternalServerErrorException('Something went wrong');
+    }
+  }
+  
+
+  
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a termination' })
+  async delete(@Param('id') id: string) {
+    return this.officeShiftService.delete(id);
+  }
+  
+}

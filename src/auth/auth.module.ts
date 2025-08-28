@@ -3,9 +3,10 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
-   imports: [
+   imports: [ UsersModule,
     JwtModule.register({
       secret: 'secretkeyhrms',       
       signOptions: { expiresIn: '1d' }, 
