@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { OfficeShift, OfficeShiftDocument } from './schema/officeShift.schema';
+import { OfficeShift, OfficeShiftDocument } from './schema/OfficeShift.schema';
 import { CreateOfficeShiftDto } from './dto/create-officeShift.dto';
 
 @Injectable()

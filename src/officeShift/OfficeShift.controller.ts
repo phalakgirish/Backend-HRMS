@@ -2,7 +2,7 @@ import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerError
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { OfficeShiftService } from './OfficeShift.service';
 import { CreateOfficeShiftDto } from './dto/create-officeShift.dto';
-import { OfficeShift } from './schema/officeShift.schema';
+import { OfficeShift, OfficeShiftDocument } from './schema/OfficeShift.schema';
 
 @ApiTags('office-shift')
 @Controller('office-shift')

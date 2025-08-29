@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { OfficeShiftController } from './OfficeShift.controller';
 import { OfficeShiftService } from './OfficeShift.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { OfficeShift, OfficeShiftSchema } from './schema/officeShift.schema';
+import { OfficeShift, OfficeShiftSchema } from './schema/OfficeShift.schema';
 
 @Module({
   imports: [
