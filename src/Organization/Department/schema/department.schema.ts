@@ -5,16 +5,24 @@ export type DepartmentDocument = Department & Document;
 
 @Schema()
 export class Department {
-  @Prop()
+  @Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
   departmentName: string;
 
-  @Prop()
+  @Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
   company: string;
 
-  @Prop()
+  @Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
   location: string;
 
-    @Prop()
+    @Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
   departmentHead: string;
 }
 

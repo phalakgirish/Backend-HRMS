@@ -11,7 +11,16 @@ export class Complaint {
     @Prop()
     complaintAgainst: string[];
 
-    @Prop()
+     @Prop({ type: String })
+        id: string;
+    
+        @Prop({
+            type: String,
+            set: (value: string) =>
+                value
+                    ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+                    : value,
+        })@Prop()
     complaintTitle: string;
 
     @Prop()

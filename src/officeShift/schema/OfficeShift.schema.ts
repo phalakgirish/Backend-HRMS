@@ -4,7 +4,13 @@ export type OfficeShiftDocument = OfficeShift & Document;
 
 @Schema()
 export class DayTime {
-    @Prop()
+    @Prop({
+            type: String,
+            set: (value: string) =>
+                value
+                    ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+                    : value,
+        })
   day: string;
 
   @Prop()
@@ -16,7 +22,13 @@ export class DayTime {
 
 @Schema()
 export class OfficeShift {
-  @Prop({ required: true })
+  @Prop({
+        type: String,
+        set: (value: string) =>
+            value
+                ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+                : value,
+    })
   shiftName: string;
 
   @Prop({ type: [DayTime], default: [] })

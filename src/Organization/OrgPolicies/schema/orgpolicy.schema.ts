@@ -7,7 +7,12 @@ export class Orgpolicy{
 @Prop()
 company:string;
 
-@Prop()
+@Prop({
+    set: (value: string) =>
+      value
+        ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        : value,
+  })
 title:string;
 
 @Prop()

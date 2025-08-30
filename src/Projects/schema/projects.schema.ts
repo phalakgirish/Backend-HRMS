@@ -5,8 +5,13 @@ export type ProjectsDocument = Projects & Document;
 @Schema()
 export class Projects {
 
-    @Prop({ required: true })
-  projectSummary: string;
+  @Prop({
+    type: String,
+    set: (value: string) =>
+      value
+        ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        : value,
+  }) projectSummary: string;
 
   @Prop({ type: [String], default: [] })
   projectManager: string[];
@@ -26,10 +31,22 @@ export class Projects {
   @Prop()
   priority: string;
 
-  @Prop()
+@Prop({
+    type: String,
+    set: (value: string) =>
+      value
+        ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        : value,
+  })
   title: string;
 
-  @Prop()
+@Prop({
+    type: String,
+    set: (value: string) =>
+      value
+        ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        : value,
+  })
   clientName: string;
 
   @Prop()

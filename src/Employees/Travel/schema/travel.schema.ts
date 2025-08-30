@@ -8,10 +8,22 @@ export class Travel {
     @Prop()
     employeeName: string;
 
-    @Prop()
+    @Prop({
+            type: String,
+            set: (value: string) =>
+                value
+                    ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+                    : value,
+        })
     purposeOfVisit: string;
 
-    @Prop()
+    @Prop({
+        type: String,
+        set: (value: string) =>
+            value
+                ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+                : value,
+    })
     placOfVisit: string;
 
     @Prop()

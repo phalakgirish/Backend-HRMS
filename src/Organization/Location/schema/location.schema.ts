@@ -5,80 +5,130 @@ export type LocationDocument = Location & Document;
 @Schema()
 export class Location{
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 company:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 locationName:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 email:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 phone:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 faxNumber:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 locationHead:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 locationHrManager:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 address:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 city:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 state:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 zipCode:number;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 country:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 bankBranch:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 bankName:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 bankCode:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 bankAccountNo:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 addedBy:string;
 
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 basiSalary: string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 hra: string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 lta: string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 allowance:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 pfEmployer:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 medical:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 esc:string;
 
-@Prop()
+@Prop({
+    set: (value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+  })
 gratuity :string;
 }
 

@@ -2,35 +2,55 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 export type AnnouncementDocument = Announcement & Document;
 
+const capitalizeFirstLetter = (value: string): string => {
+  if (!value) return value;
+  return value.charAt(0).toUpperCase() + value.slice(1);
+};
+
 @Schema()
 export class Announcement{
-@Prop()
-title:string;
+@Prop({
+  type: String,
+  set: (value: string) =>
+    value
+      ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+      : value,
+})title:string;
 
-@Prop()
+ @Prop({ set: capitalizeFirstLetter })
 publishedFor:string;
 
 
-@Prop()
+ @Prop({ set: capitalizeFirstLetter })
 startDate:string;
 
-@Prop()
+ @Prop({ set: capitalizeFirstLetter })
 endDate:string;
 
-@Prop()
+ @Prop({ set: capitalizeFirstLetter })
 company:string;
 
-@Prop()
+ @Prop({ set: capitalizeFirstLetter })
 location:string;
 
-@Prop()
+ @Prop({ set: capitalizeFirstLetter })
 publishedBy:string;
 
-@Prop()
-summary:string;
+@Prop({
+  type: String,
+  set: (value: string) =>
+    value
+      ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+      : value,
+})summary:string;
 
-@Prop()
-description:string;
+@Prop({
+  type: String,
+  set: (value: string) =>
+    value
+      ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+      : value,
+})description:string;
 }
 
 export const AnnouncementSchema =SchemaFactory.createForClass(Announcement);

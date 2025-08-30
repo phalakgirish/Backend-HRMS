@@ -26,7 +26,13 @@ export class TrainersList {
     @Prop()
     expertise: string;
 
-    @Prop()
+     @Prop({
+           type: String,
+           set: (value: string) =>
+               value
+                   ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+                   : value,
+       })
     address: string;
 }
 

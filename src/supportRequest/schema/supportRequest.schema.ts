@@ -5,8 +5,13 @@ export type SupportRequestDocument = SupportRequest & Document;
 @Schema()
 export class SupportRequest {
 
-    @Prop({ required: true })
-    subject: string;
+@Prop({
+        type: String,
+        set: (value: string) =>
+            value
+                ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+                : value,
+    })    subject: string;
 
 
     @Prop({ required: true })

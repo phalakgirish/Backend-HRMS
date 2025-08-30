@@ -8,7 +8,13 @@ export class Promotion{
 @Prop()
 employeeName:string;
 
-@Prop()
+@Prop({
+        type: String,
+        set: (value: string) =>
+            value
+                ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+                : value,
+    })
 PromotionTitle:string;
 
 @Prop()

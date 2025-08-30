@@ -12,7 +12,13 @@ export class Awards extends Document {
   @Prop({ required: true })
   awardName: string;
 
-  @Prop({ required: true })
+  @Prop({
+    type: String,
+    set: (value: string) =>
+      value
+        ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        : value,
+  })
   gift: string;
 
     @Prop({ required: true })

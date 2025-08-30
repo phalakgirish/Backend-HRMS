@@ -1,6 +1,6 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Designation, DesignationDocument } from './schema/designation.schema';
 import { CreateDesignationDto } from './dto/create-designation.dto';
 
@@ -18,20 +18,48 @@ export class DesignationService {
   }
 
 
-    async update(id: string, updateDto: any): Promise<Designation> {
-      try {
-        console.log('Updating Designation with ID:', id);
-        console.log('Update data:', updateDto);
-        const updated = await this.designationModel.findByIdAndUpdate(id, updateDto, { new: true });
-          if (!updated) {
-        throw new NotFoundException(`Designation with ID ${id} not found`);
-      }
-        return updated;
-      } catch (error) {
-        console.error('Service update error:', error);
-        throw new InternalServerErrorException('Error updating designation');
-      }
+    // async update(id: string, updateDto: any): Promise<Designation> {
+    //   try {
+    //     console.log('Updating Designation with ID:', id);
+    //     console.log('Update data:', updateDto);
+    //     const updated = await this.designationModel.findByIdAndUpdate(id, updateDto, { new: true });
+    //       if (!updated) {
+    //     throw new NotFoundException(`Designation with ID ${id} not found`);
+    //   }
+    //     return updated;
+    //   } catch (error) {
+    //     console.error('Service update error:', error);
+    //     throw new InternalServerErrorException('Error updating designation');
+    //   }
+    // }
+
+  async update(id: string, updateDto: any): Promise<Designation> {
+  try {
+    console.log('Updating Designation with ID:', id);
+    console.log('Update data:', updateDto);
+
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException(`Invalid ID format: ${id}`);
     }
+
+    const updated = await this.designationModel.findByIdAndUpdate(
+      id,
+      { $set: updateDto },
+      { new: true, runValidators: true }
+    );
+
+    if (!updated) {
+      throw new NotFoundException(`Designation with ID ${id} not found`);
+    }
+
+    return updated;
+  } catch (error) {
+    console.error('Service update error:', error); // log full error
+    throw error; // <--- do not wrap again, so you see real cause
+  }
+}
+
+
   
   
   async delete(id: string): Promise<{ message: string }> {
