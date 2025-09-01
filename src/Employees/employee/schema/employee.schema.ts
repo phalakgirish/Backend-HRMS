@@ -6,7 +6,7 @@ export type EmployeeDocument = Employee & Document;
 @Schema()
 export class Employee {
 
-    @Prop({ type: String })
+    @Prop({ type: String,unique:true })
     id: string;
 
     @Prop({

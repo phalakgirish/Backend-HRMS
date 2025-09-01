@@ -8,6 +8,7 @@ import { EmployeeController } from './employee.controller';
   imports: [
       MongooseModule.forFeature([{ name: Employee.name, schema: EmployeeSchema }])
     ],
+      exports: [MongooseModule],
   controllers: [EmployeeController],
   providers: [EmployeeService]
 })

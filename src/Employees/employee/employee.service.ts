@@ -40,6 +40,7 @@ export class EmployeeService {
     if (!result) {
       throw new NotFoundException(`employe with id ${id} not found`);
     }
+    
     return { message: 'employe deleted successfully' };
   }
 

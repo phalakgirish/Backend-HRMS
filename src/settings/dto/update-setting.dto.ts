@@ -1,0 +1,37 @@
+export class UpdateSettingDto {
+    readonly company_name:String;
+    readonly company_address:String;
+    readonly company_contact_person:String;
+    readonly company_contanct_no:String;
+    readonly company_email:String;
+    readonly company_city:String;
+    readonly company_state:String;
+    readonly company_country:String;
+    readonly company_pincode:String;
+    readonly application_name:String;
+    readonly default_currency:String;
+    readonly dafault_date_format:String;
+    readonly default_currency_appfix:String;
+    readonly default_currency_pos:String;
+    readonly footer_text:String;
+    readonly is_year_footer:Boolean;
+    readonly emp_manage_contact:Boolean;
+    readonly emp_manage_bank:Boolean;
+    readonly emp_manage_qualification:Boolean;
+    readonly emp_manage_work_exp:Boolean;
+    readonly emp_manage_doc:Boolean;
+    readonly emp_manage_profile_pic:Boolean;
+    readonly emp_manage_profile_info:Boolean;
+    readonly emp_manage_social_info:Boolean;
+    readonly enable_clock_in_btn:Boolean;
+    readonly enable_clock_in_out:Boolean;
+    readonly payslip_pass_format:String;
+    readonly enable_payslip_password:Boolean;
+    readonly payslip_logo:String;
+    readonly enable_employee_job:Boolean;
+    readonly job_app_format:Array<String>;
+    readonly job_list_logo:String;
+    readonly enable_email_notifi:Boolean;
+    readonly file_size:Number;
+    readonly file_format:Array<String>;
+}
