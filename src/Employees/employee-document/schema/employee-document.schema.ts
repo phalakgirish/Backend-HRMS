@@ -1,9 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import {Types  } from "mongoose";
 
+@Schema()
 export class EmployeeDocument {
-    @Prop({ type: Types.ObjectId, ref: '', default:null })
-    document_type_id:Types.ObjectId;
+     @Prop({ type: Types.ObjectId, ref: 'Employee' })
+      employeeId: Types.ObjectId;
+
+    @Prop()
+    document_type_id:string;
 
     @Prop()
     document_title:String;
@@ -21,10 +25,10 @@ export class EmployeeDocument {
     document_file:String;
 
     @Prop()
-    is_sendnotification_doe:Boolean;
+    is_sendnotification_doe:String;
 
-    @Prop({ type: Types.ObjectId, ref: 'Employee', default:null})
-    employee_id:Types.ObjectId;
+    // @Prop({ type: Types.ObjectId, ref: 'Employee', default:null})
+    // employee_id:Types.ObjectId;
 }
 
 export const Employeedocumentschema = SchemaFactory.createForClass(EmployeeDocument)

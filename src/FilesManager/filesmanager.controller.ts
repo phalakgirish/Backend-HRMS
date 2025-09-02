@@ -24,37 +24,37 @@ export class FilesManagerController {
   }
 
   @Post('upload')
-@UseInterceptors(FileInterceptor('file', {
-  storage: diskStorage({
-    destination: (req, file, cb) => {
-      const uploadPath = join(process.cwd(), 'uploads');
-      if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
-      cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-      cb(null, file.originalname); // keep original filename
-    },
-  }),
-}))
-async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body: any) {
-  if (!file) throw new Error('File not received');
-  const department = body.department; // <-- define it
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: (req, file, cb) => {
+        const uploadPath = join(process.cwd(), 'uploads');
+        if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
+        cb(null, uploadPath);
+      },
+      filename: (req, file, cb) => {
+        cb(null, file.originalname); // keep original filename
+      },
+    }),
+  }))
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body: any) {
+    if (!file) throw new Error('File not received');
+    const department = body.department; // <-- define it
 
-  const stats = fs.statSync(file.path); // get file size
-  const size = `${Math.round(stats.size / 1024)} KB`;
-  const extension = file.originalname.split('.').pop() || '';
+    const stats = fs.statSync(file.path); // get file size
+    const size = `${Math.round(stats.size / 1024)} KB`;
+    const extension = file.originalname.split('.').pop() || '';
 
- const savedFile = await this.filesManagerService.create({
-    department,      
-    file: file.filename,
-    originalName: file.originalname,
-    size,
-    extension,
-    uploadedDate: new Date().toISOString(),
-  });
+    const savedFile = await this.filesManagerService.create({
+      department,
+      file: file.filename,
+      originalName: file.originalname,
+      size,
+      extension,
+      uploadedDate: new Date().toISOString(),
+    });
 
-  return { message: 'File uploaded successfully', filename: savedFile.filename };
-}
+    return { message: 'File uploaded successfully', filename: savedFile.filename };
+  }
 
 
   @Get()
@@ -76,15 +76,15 @@ async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body: any) {
     return res.download(filePath);
   }
 
-@Get('list')
-async getFilesList() {
-  const filesFromDb = await this.filesManagerService.findAll(); // fetch all from DB
-  return filesFromDb.map(file => ({
-    filename: file.file,          // actual saved filename
-    originalName: file.originalName,
-    url: `http://localhost:3000/files-manager/download/${file.file}`,
-  }));
-}
+  @Get('list')
+  async getFilesList() {
+    const filesFromDb = await this.filesManagerService.findAll(); // fetch all from DB
+    return filesFromDb.map(file => ({
+      filename: file.file,          // actual saved filename
+      originalName: file.originalName,
+      url: `http://localhost:3000/files-manager/download/${file.file}`,
+    }));
+  }
 
 
 

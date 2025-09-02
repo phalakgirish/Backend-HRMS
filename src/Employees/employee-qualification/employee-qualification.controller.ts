@@ -6,34 +6,34 @@ import { UpdateEmployeeQualificationDto } from './dto/update-employee-qualificat
 
 @Controller('employee-qualification')
 export class EmployeeQualificationController {
-    constructor(private employeeQualificationService:EmployeeQualificationService,
-    ){}
+  constructor(private employeeQualificationService: EmployeeQualificationService,
+  ) { }
 
-    @Post()
-     async create(@Body() dto: CreateEmployeeQualificationDto) {
-       return this.employeeQualificationService.create(dto);
-     }
-   
-   
-   
-     @Get('employee/:employeeId')
-     async getFamilyByEmployeeId(
-       @Param('employeeId') employeeId: string,
-     ) {
-       return this.employeeQualificationService.findAllByemployeeId(employeeId);
-     }
-   
-   @Delete(':id')
-async delete(@Param('id') id: string) {
-  return this.employeeQualificationService.delete(id);
-}
+  @Post()
+  async create(@Body() dto: CreateEmployeeQualificationDto) {
+    return this.employeeQualificationService.create(dto);
+  }
 
-     @Put(':id')
-     async updateFamily(
-       @Param('id') id: string,
-       @Body() dto: Partial<CreateEmployeeQualificationDto>,
-     ) {
-       return this.employeeQualificationService.update(id, dto);
-     }
-   
+
+
+  @Get('employee/:employeeId')
+  async getFamilyByEmployeeId(
+    @Param('employeeId') employeeId: string,
+  ) {
+    return this.employeeQualificationService.findAllByEmpId(employeeId);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return this.employeeQualificationService.delete(id);
+  }
+
+  @Put(':id')
+  async updateFamily(
+    @Param('id') id: string,
+    @Body() dto: Partial<CreateEmployeeQualificationDto>,
+  ) {
+    return this.employeeQualificationService.update(id, dto);
+  }
+
 }

@@ -6,5 +6,6 @@ export class CreateEmployeeExperienceDto {
     readonly from_date:Date;
     readonly to_date:Date;
     readonly desc:String;
-    readonly emaployee_id:Types.ObjectId
+    readonly employeeId:Types.ObjectId
+    // employeeId:string;
 }

@@ -1,96 +1,89 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { EmployeeBankaccountService } from './employee-bankaccount.service';
 import { EmployeeBankaccount } from './schema/employee-bankaccount.schema';
-import { CreateEmployeeBankaccountDto } from './dto/create-employee-bankaccount.dto';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { extname } from 'path';
-import { UpdateEmployeeBankaccountDto } from './dto/update-employee-bankaccount.dto';
+import { extname, join } from 'path';
+import * as fs from 'fs';
+import type { Response } from 'express';
 
 @Controller('employee-bankaccount')
 export class EmployeeBankaccountController {
-    constructor(private employeeBankAccountService:EmployeeBankaccountService,
-    ){}
+    constructor(private employeeBankAccountService: EmployeeBankaccountService,
+    ) { }
 
     @Get()
     async getAllBankAccountDts(
-    ):Promise<EmployeeBankaccount[]>{
+    ): Promise<EmployeeBankaccount[]> {
         return this.employeeBankAccountService.findAll();
     }
 
-    @Get('employee/:emp_id')
-    async getAllBankAccountDtsByEmpId(
-        @Param()
-        emp_id:any
-    ):Promise<EmployeeBankaccount[]>{
-            
-        return this.employeeBankAccountService.findAllByEmpId(emp_id);
+
+    @Get('download/:filename')
+    downloadFile(@Param('filename') filename: string, @Res() res: Response) {
+        const filePath = join(process.cwd(), 'uploads', filename);
+
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).send('File not found');
+        }
+
+        res.download(filePath, filename, (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Error downloading file');
+            }
+        });
+    }
+
+
+    @Get('employee/:employeeId')
+    async getByEmployeeId(@Param('employeeId') employeeId: string) {
+        return this.employeeBankAccountService.findAllByEmpId(employeeId);
+    }
+
+    @Delete(':id')
+    async delete(@Param('id') id: string) {
+        return this.employeeBankAccountService.deleteById(id);
     }
 
     @Post()
     @UseInterceptors(
-        FileInterceptor('account_bank_doc', {
+        FileInterceptor('document_file', {
             storage: diskStorage({
-            destination: './uploads', // Directory to save banner images
-            filename: (req:any, file:any, callback:any) => {
-                const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-                const fileExt = extname(file.originalname);
-                const fileName = `bankaccdoc-${uniqueSuffix}${fileExt}`;
-                callback(null, fileName);
-            },
+                destination: './uploads',
+                filename: (req, file, cb) => {
+                    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                    cb(null, `${uniqueSuffix}${extname(file.originalname)}`);
+                },
             }),
         }),
     )
-    async createEmployeeBankAccount(
-        @Body()
-        accountDts:CreateEmployeeBankaccountDto,
-        @UploadedFile() file: Express.Multer.File,
-    ):Promise<any>{  
-        
-        const account_bank_doc = file?.filename;
-        return this.employeeBankAccountService.create({...accountDts,account_bank_doc});
+    async create(@UploadedFile() file: Express.Multer.File, @Body() dto: any) {
+        if (file) dto.account_bank_doc = `/uploads/${file.filename}`;
+
+        return this.employeeBankAccountService.create(dto);
     }
 
-    @Get(':acc_id')
-    async getBankAccountById(
-        @Param()
-        acc_id:any,
-    ):Promise<EmployeeBankaccount>{
-            
-        return this.employeeBankAccountService.findById(acc_id);
-    }
-
-    @Put(':acc_id')
+    @Put(':id')
     @UseInterceptors(
-        FileInterceptor('account_bank_doc', {
+        FileInterceptor('document_file', {
             storage: diskStorage({
-            destination: './uploads', // Directory to save banner images
-            filename: (req:any, file:any, callback:any) => {
-                const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-                const fileExt = extname(file.originalname);
-                const fileName = `bankaccdoc-${uniqueSuffix}${fileExt}`;
-                callback(null, fileName);
-            },
+                destination: './uploads',
+                filename: (req, file, cb) => {
+                    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                    cb(null, `${uniqueSuffix}${extname(file.originalname)}`);
+                },
             }),
         }),
     )
-    async updateDocumentById(
-        @Param()
-        acc_id:any,
-        @Body()
-        accountDts:UpdateEmployeeBankaccountDto,
+    async update(
+        @Param('id') id: string,
         @UploadedFile() file: Express.Multer.File,
-    ):Promise<any>{
-    
-        var account_bank_doc = file?.filename
-        return this.employeeBankAccountService.updateById(acc_id,{...accountDts,account_bank_doc});
+        @Body() dto: any,
+    ) {
+        if (file) dto.account_bank_doc = `/uploads/${file.filename}`;
+
+        return this.employeeBankAccountService.update(id, dto);
     }
 
-    @Delete(':acc_id')
-    async deleteBankAccountById(
-        @Param()
-        acc_id:any,
-    ):Promise<any>{        
-        return this.employeeBankAccountService.deleteById(acc_id);
-    }
 }

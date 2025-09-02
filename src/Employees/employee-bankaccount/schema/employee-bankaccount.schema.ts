@@ -1,28 +1,30 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Types } from "mongoose";
-
+@Schema()
 export class EmployeeBankaccount {
-    
-    @Prop()
-    account_title:String;
+    @Prop({ type: Types.ObjectId, ref: 'Employee' })
+    employeeId: Types.ObjectId;
 
     @Prop()
-    account_number:String;
+    account_title: String;
 
     @Prop()
-    account_bank_name:String;
+    account_number: String;
 
     @Prop()
-    aacount_bank_code:String;
+    account_bank_name: String;
 
     @Prop()
-    account_bank_branch:String;
+    aacount_bank_code: String;
 
-    @Prop({default:null})
-    account_bank_doc:String;
+    @Prop()
+    account_bank_branch: String;
 
-    @Prop({ type: Types.ObjectId, ref: 'Employee', default:null})
-    employee_id:Types.ObjectId
+    @Prop()
+    account_bank_doc: String;
+
+    // @Prop({ type: Types.ObjectId, ref: 'Employee', default:null})
+    // employee_id:Types.ObjectId
 
 }
 

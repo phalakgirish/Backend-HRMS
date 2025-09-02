@@ -6,57 +6,33 @@ import { UpdateEmployeeExperienceDto } from './dto/update-employee-experience.dt
 
 @Controller('employee-experience')
 export class EmployeeExperienceController {
-    constructor(private employeeExperienceService:EmployeeExperienceService,
-    ){}
-
-    @Get()
-    async getAllExperienceDts(
-    ):Promise<EmployeeExperience[]>{
-        return this.employeeExperienceService.findAll();
-    }
-
-    @Get('employee/:emp_id')
-    async getAllExperienceDtsByEmpId(
-        @Param()
-        emp_id:any
-    ):Promise<EmployeeExperience[]>{
-            
-        return this.employeeExperienceService.findAllByEmpId(emp_id);
-    }
+    constructor(private employeeExperienceService: EmployeeExperienceService,
+    ) { }
 
     @Post()
-    async createEmployeeDocument(
-        @Body()
-        experienceDts:CreateEmployeeExperienceDto,
-    ):Promise<any>{        
-        return this.employeeExperienceService.create(experienceDts);
+    async create(@Body() dto: UpdateEmployeeExperienceDto) {
+        return this.employeeExperienceService.create(dto);
     }
 
-    @Get(':exp_id')
-    async getDocumentById(
-        @Param()
-        exp_id:any,
-    ):Promise<EmployeeExperience>{
-            
-        return this.employeeExperienceService.findById(exp_id);
+
+
+   @Get('employee/:employeeId')
+  async getFamilyByEmployeeId(
+    @Param('employeeId') employeeId: string,
+  ) {
+    return this.employeeExperienceService.findAllByEmpId(employeeId);
+  }
+
+    @Delete(':id')
+    async delete(@Param('id') id: string) {
+        return this.employeeExperienceService.delete(id);
     }
 
-    @Put(':exp_id')
-    async updateDocumentById(
-        @Param()
-        exp_id:any,
-        @Body()
-        experienceDts:UpdateEmployeeExperienceDto
-    ):Promise<any>{
-                
-        return this.employeeExperienceService.updateById(exp_id,experienceDts);
-    }
-
-    @Delete(':exp_id')
-    async deleteDocumentById(
-        @Param()
-        exp_id:any,
-    ):Promise<any>{        
-        return this.employeeExperienceService.deleteById(exp_id);
-    }
+   @Put(':id')
+     async updateFamily(
+       @Param('id') id: string,
+       @Body() dto: Partial<CreateEmployeeExperienceDto>,
+     ) {
+       return this.employeeExperienceService.update(id, dto);
+     }
 }

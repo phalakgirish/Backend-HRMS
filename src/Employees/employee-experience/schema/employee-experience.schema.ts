@@ -1,7 +1,11 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import {Types  } from "mongoose";
 
+@Schema() 
 export class EmployeeExperience {
+     @Prop({ type: Types.ObjectId, ref: 'Employee' })
+      employeeId: Types.ObjectId;
+
     @Prop()
     company_name:String;
 
@@ -17,8 +21,6 @@ export class EmployeeExperience {
     @Prop()
     desc:String;
 
-    @Prop({ type: Types.ObjectId, ref: 'Employee', default:null})
-    emaployee_id:Types.ObjectId
 }
 
 export const Employeeexperienceschema = SchemaFactory.createForClass(EmployeeExperience)

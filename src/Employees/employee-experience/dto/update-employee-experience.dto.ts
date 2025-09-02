@@ -1,10 +1,4 @@
-import { Types } from "mongoose";
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateEmployeeExperienceDto } from './create-employee-experience.dto';
 
-export class UpdateEmployeeExperienceDto {
-    readonly company_name:String;
-    readonly designation:String;
-    readonly from_date:Date;
-    readonly to_date:Date;
-    readonly desc:String;
-    readonly emaployee_id:Types.ObjectId
-}
+export class UpdateEmployeeExperienceDto extends PartialType(CreateEmployeeExperienceDto) {}

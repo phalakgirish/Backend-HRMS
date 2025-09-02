@@ -16,5 +16,6 @@ export class CreateEmployeeFamilyDto {
     readonly family_country?:String;
     readonly family_dob?:Date;
     // readonly employee_id:Types.ObjectId;
-    employeeId:string;
+    readonly employeeId:Types.ObjectId;
+
 }

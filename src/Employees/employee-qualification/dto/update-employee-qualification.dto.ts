@@ -1,9 +1,4 @@
-import { Types } from "mongoose";
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateEmployeeQualificationDto } from './create-employee-qualification.dto';
 
-export class UpdateEmployeeQualificationDto {
-    readonly employee_school_university:String;
-    readonly employee_education_level:Types.ObjectId;
-    readonly emplyee_passout_year:String;
-    readonly education_desc:String;
-    readonly employee_id:Types.ObjectId;
-}
+export class UpdateEmployeeQualificationDto extends PartialType(CreateEmployeeQualificationDto) {}

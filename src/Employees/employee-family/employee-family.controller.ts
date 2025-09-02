@@ -7,14 +7,6 @@ import { CreateEmployeeFamilyDto } from './dto/create-employee-family.dto';
 export class EmployeeFamilyController {
   constructor(private employeeFamilyService: EmployeeFamilyService) { }
 
-  // @Post('employee/:employeeId')
-  // async createFamily(
-  //     @Param('employeeId') employeeId: string,
-  //     @Body() dto: CreateEmployeeFamilyDto,
-  // ) {
-  //     dto.employeeId = employeeId; // employeeId must be string
-  //     return this.employeeFamilyService.create(dto);
-  // }
 
   @Post()
   async create(@Body() dto: CreateEmployeeFamilyDto) {
@@ -27,7 +19,7 @@ export class EmployeeFamilyController {
   async getFamilyByEmployeeId(
     @Param('employeeId') employeeId: string,
   ) {
-    return this.employeeFamilyService.findAllByemployeeId(employeeId);
+    return this.employeeFamilyService.findAllByEmpId(employeeId);
   }
 
   @Delete(':id')
