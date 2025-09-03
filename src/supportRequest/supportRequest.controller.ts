@@ -33,10 +33,11 @@ async updateSupportRequest(
   console.log("Received file:", file);
 
   const updatedData = {
-    assignedTo: body.assignedTo,
-    status: body.status,
-    remarks: body.remarks,
-    ticketNotes: body.ticketNotes,
+     ...body,
+    // assignedTo: body.assignedTo,
+    // status: body.status,
+    // remarks: body.remarks,
+    // ticketNotes: body.ticketNotes,
     file: file ? file.filename : undefined
   };
 
@@ -52,19 +53,19 @@ async updateSupportRequest(
   }
 
   
-  @Put(':id')
-  @ApiOperation({ summary: 'Update support request' })
-  @ApiResponse({ status: 200, description: 'support request updated successfully' })
-  async update(@Param('id') id: string, @Body() body: any) {
-    try {
-      console.log('Updating support request with ID:', id);
-      console.log('Update data:', body);
-      return await this.supportRequestService.update(id, body);
-    } catch (err) {
-      console.error('Update failed:', err);
-      throw new InternalServerErrorException('Something went wrong');
-    }
-  }
+  // @Put(':id')
+  // @ApiOperation({ summary: 'Update support request' })
+  // @ApiResponse({ status: 200, description: 'support request updated successfully' })
+  // async update(@Param('id') id: string, @Body() body: any) {
+  //   try {
+  //     console.log('Updating support request with ID:', id);
+  //     console.log('Update data:', body);
+  //     return await this.supportRequestService.update(id, body);
+  //   } catch (err) {
+  //     console.error('Update failed:', err);
+  //     throw new InternalServerErrorException('Something went wrong');
+  //   }
+  // }
   
 
   

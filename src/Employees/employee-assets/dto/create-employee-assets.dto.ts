@@ -10,5 +10,5 @@ export class CreateEmployeeAssetsDto {
     readonly assets_quality:String;
     readonly assets_insurance:String;
     readonly assets_remark:String;
-    readonly employee_id:Types.ObjectId;
+    readonly employeeId:Types.ObjectId;
 }

@@ -42,6 +42,10 @@ import { EmployeeQualificationModule } from './Employees/employee-qualification/
 import { EmployeeExperienceModule } from './Employees/employee-experience/employee-experience.module';
 import { EmployeeDocumentModule } from './Employees/employee-document/employee-document.module';
 import { EmployeeBankaccountModule } from './Employees/employee-bankaccount/employee-bankaccount.module';
+import { EmployeeShiftModule } from './Employees/employee-shift/employee-shift.module';
+import { EmployeeLocationModule } from './Employees/employee-location/employee-location.module';
+import { EmployeeAssetsModule } from './Employees/employee-assets/employee-assets.module';
+import { ProfilePictureModule } from './Employees/profile-picture/profile-picture.module';
 
 @Module({
   imports: [MongooseModule.forRoot('mongodb://localhost:27017/hrms-api'),
@@ -51,7 +55,8 @@ import { EmployeeBankaccountModule } from './Employees/employee-bankaccount/empl
     TransferModule,PerformanceIndicatorModule, PerformanceAppraisalModule , TrainersListModule, TrainingTypeModule,
     UpdateAttendanceModule, FilesManagerModule, ProjectsModule, SupportRequestModule , ConstantsModule, FilesModule,
     TrainingListModule, SetRolesModule, JobCandidateModule, EmailTemplateModule, UsersModule ,UsersModule,OfficeShiftModule,
-    EmployeeFamilyModule, EmployeeQualificationModule, EmployeeExperienceModule, EmployeeDocumentModule, EmployeeBankaccountModule
+    EmployeeFamilyModule, EmployeeQualificationModule, EmployeeExperienceModule, EmployeeDocumentModule, EmployeeBankaccountModule,
+    EmployeeShiftModule, EmployeeLocationModule, EmployeeAssetsModule, ProfilePictureModule
   ],
   controllers: [AppController],
   providers: [AppService],

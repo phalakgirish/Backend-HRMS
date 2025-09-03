@@ -6,58 +6,37 @@ import { UpdateEmployeeLocationDto } from './dto/update-employee-location.dto';
 
 @Controller('employee-location')
 export class EmployeeLocationController {
-    constructor(private employeeLocationService:EmployeeLocationService,
-    ){}
+    constructor(private employeeLocationService: EmployeeLocationService,
+    ) { }
 
     @Get()
-    async getAllLocationDts(
-    ):Promise<EmployeeLocation[]>{
+    async getAllShiftDts(
+    ): Promise<EmployeeLocation[]> {
         return this.employeeLocationService.findAll();
     }
 
-    @Get('employee/:emp_id')
-    async getAllLocationDtsByEmpId(
-        @Param()
-        emp_id:any
-    ):Promise<EmployeeLocation[]>{
-            
-        return this.employeeLocationService.findAllByEmpId(emp_id);
+    @Get('employee/:employeeId')
+    async getAllShiftDtsByEmpId(@Param('employeeId') employeeId: string): Promise<EmployeeLocation[]> {
+        return this.employeeLocationService.findAllByEmpId(employeeId);
     }
+
 
     @Post()
-    async createEmployeeLocation(
-        @Body()
-        locationDts:CreateEmployeeLocationDto,
-    ):Promise<any>{   
-
-        return this.employeeLocationService.create(locationDts);
+    async create(@Body() dto: CreateEmployeeLocationDto) {
+        return this.employeeLocationService.create(dto);
     }
 
-    @Get(':locationId')
-    async getLocationById(
-        @Param()
-        locationId:any,
-    ):Promise<EmployeeLocation>{
-            
-        return this.employeeLocationService.findById(locationId);
+    @Put(':id')
+    async updateShifft(
+        @Param('id') id: string,
+        @Body() dto: Partial<CreateEmployeeLocationDto>,
+    ) {
+        return this.employeeLocationService.update(id, dto);
     }
 
-    @Put(':locationId')
-    async updateLocationById(
-        @Param()
-        locationId:any,
-        @Body()
-        locationDts:UpdateEmployeeLocationDto,
-    ):Promise<any>{
 
-        return this.employeeLocationService.updateById(locationId,locationDts);
-    }
-
-    @Delete(':locationId')
-    async deleteLocationById(
-        @Param()
-        locationId:any,
-    ):Promise<any>{        
-        return this.employeeLocationService.deleteById(locationId);
+    @Delete(':id')
+    async delete(@Param('id') id: string) {
+        return this.employeeLocationService.delete(id);
     }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, } from '@nestjs/common';
 import { EmployeeShiftService } from './employee-shift.service';
 import { EmployeeShift } from './schema/employee-shift.schema';
 import { CreateEmployeeShiftDto } from './dto/create-employee-shift.dto';
@@ -6,58 +6,37 @@ import { UpdateEmployeeShiftDto } from './dto/update-employee-shift.dto';
 
 @Controller('employee-shift')
 export class EmployeeShiftController {
-    constructor(private employeeShiftService:EmployeeShiftService,
-    ){}
+    constructor(private employeeShiftService: EmployeeShiftService,
+    ) { }
 
     @Get()
     async getAllShiftDts(
-    ):Promise<EmployeeShift[]>{
+    ): Promise<EmployeeShift[]> {
         return this.employeeShiftService.findAll();
     }
 
-    @Get('employee/:emp_id')
-    async getAllShiftDtsByEmpId(
-        @Param()
-        emp_id:any
-    ):Promise<EmployeeShift[]>{
-            
-        return this.employeeShiftService.findAllByEmpId(emp_id);
+    @Get('employee/:employeeId')
+    async getAllShiftDtsByEmpId(@Param('employeeId') employeeId: string): Promise<EmployeeShift[]> {
+        return this.employeeShiftService.findAllByEmpId(employeeId);
     }
+
 
     @Post()
-    async createEmployeeShift(
-        @Body()
-        shiftDts:CreateEmployeeShiftDto,
-    ):Promise<any>{   
-
-        return this.employeeShiftService.create(shiftDts);
+    async create(@Body() dto: CreateEmployeeShiftDto) {
+        return this.employeeShiftService.create(dto);
     }
 
-    @Get(':shift_id')
-    async getShiftById(
-        @Param()
-        shift_id:any,
-    ):Promise<EmployeeShift>{
-            
-        return this.employeeShiftService.findById(shift_id);
+    @Put(':id')
+    async updateShifft(
+        @Param('id') id: string,
+        @Body() dto: Partial<CreateEmployeeShiftDto>,
+    ) {
+        return this.employeeShiftService.update(id, dto);  
     }
 
-    @Put(':shift_id')
-    async updateShiftById(
-        @Param()
-        shift_id:any,
-        @Body()
-        shiftDts:UpdateEmployeeShiftDto,
-    ):Promise<any>{
 
-        return this.employeeShiftService.updateById(shift_id,shiftDts);
-    }
-
-    @Delete(':shift_id')
-    async deleteShiftById(
-        @Param()
-        shift_id:any,
-    ):Promise<any>{        
-        return this.employeeShiftService.deleteById(shift_id);
+    @Delete(':id')
+    async delete(@Param('id') id: string) {
+        return this.employeeShiftService.delete(id);
     }
 }

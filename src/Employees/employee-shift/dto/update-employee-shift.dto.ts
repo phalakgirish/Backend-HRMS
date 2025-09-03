@@ -1,8 +1,4 @@
-import { Types } from "mongoose";
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateEmployeeShiftDto } from './create-employee-shift.dto';
 
-export class UpdateEmployeeShiftDto {
-    readonly shift_from_date:Date;
-    readonly shift_to_date:Date;
-    readonly shift_id:Types.ObjectId;
-    readonly employee_id:Types.ObjectId;
-}
+export class UpdateEmployeeShiftDto extends PartialType(CreateEmployeeShiftDto) {}
