@@ -3,25 +3,27 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 export type ExpenseDocument = Expense & Document;
 
 @Schema()
-export class Expense{
-@Prop()
-expense:string;
+export class Expense {
+    @Prop()
+    expense: string;
 
-@Prop()
-employee:string;
+    @Prop()
+    employee: string;
 
-@Prop()
-purchasedDate:string;
+    @Prop()
+    purchasedDate: string;
 
-@Prop()
-amount:number;
+    @Prop()
+    amount: number;
 
-@Prop()
-status:string;
+    @Prop()
+    status: string;
 
-@Prop()
-description:string;
+    @Prop()
+    description: string;
 
+    @Prop()
+    billCopy: string;
 }
 
-export const ExpenseSchema =SchemaFactory.createForClass(Expense);
+export const ExpenseSchema = SchemaFactory.createForClass(Expense);

@@ -1,37 +1,45 @@
 export class CreateSettingDto {
-    readonly company_name:String;
-    readonly company_address:String;
-    readonly company_contact_person:String;
-    readonly company_contanct_no:String;
-    readonly company_email:String;
-    readonly company_city:String;
-    readonly company_state:String;
-    readonly company_country:String;
-    readonly company_pincode:String;
-    readonly application_name:String;
-    readonly default_currency:String;
-    readonly dafault_date_format:String;
-    readonly default_currency_appfix:String;
-    readonly default_currency_pos:String;
-    readonly footer_text:String;
-    readonly is_year_footer:Boolean;
-    readonly emp_manage_contact:Boolean;
-    readonly emp_manage_bank:Boolean;
-    readonly emp_manage_qualification:Boolean;
-    readonly emp_manage_work_exp:Boolean;
-    readonly emp_manage_doc:Boolean;
-    readonly emp_manage_profile_pic:Boolean;
-    readonly emp_manage_profile_info:Boolean;
-    readonly emp_manage_social_info:Boolean;
-    readonly enable_clock_in_btn:Boolean;
-    readonly enable_clock_in_out:Boolean;
-    readonly payslip_pass_format:String;
-    readonly enable_payslip_password:Boolean;
-    readonly payslip_logo:String;
-    readonly enable_employee_job:Boolean;
-    readonly job_app_format:Array<String>;
-    readonly job_list_logo:String;
-    readonly enable_email_notifi:Boolean;
-    readonly file_size:Number;
-    readonly file_format:Array<String>;
+  readonly company_name: string;
+  readonly company_address: string;
+  readonly company_contact_person: string;
+  readonly company_contanct_no: string;
+  readonly company_email: string;
+  readonly company_city: string;
+  readonly company_state: string;
+  readonly company_country: string;
+  readonly company_pincode: string;
+
+  readonly application_name: string;
+  readonly default_currency: string;
+  readonly dafault_date_format: string;
+  readonly default_currency_appfix: string;
+  readonly default_currency_pos: string;
+  readonly footer_text: string;
+  readonly enableCodeigniterFooter: boolean;
+  readonly is_year_footer: boolean;
+
+  readonly emp_manage_contact: boolean;
+  readonly emp_manage_bank: boolean;
+  readonly emp_manage_qualification: boolean;
+  readonly emp_manage_work_exp: boolean;
+  readonly emp_manage_doc: boolean;
+  readonly emp_manage_profile_pic: boolean;
+  readonly emp_manage_profile_info: boolean;
+  readonly emp_manage_social_info: boolean;
+
+  readonly enable_clock_in_btn: boolean;
+  readonly enable_clock_in_out: boolean;
+
+  readonly payslip_pass_format: string;
+  readonly enable_payslip_password: boolean;
+  readonly payslip_logo: string;
+  
+  readonly enable_employee_job: boolean;
+  readonly job_app_format: string[];
+
+  readonly job_list_logo: string;
+  readonly enable_email_notifi: boolean;
+
+  readonly file_size: number;
+  readonly file_format: string[];
 }

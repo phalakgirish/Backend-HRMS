@@ -1,113 +1,50 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import {Types  } from "mongoose";
+import { Document } from "mongoose";
 
-export class Settings {
+@Schema()
+export class Settings extends Document {
+  @Prop({ default: '' }) company_name: string;
+  @Prop({ default: '' }) company_address: string;
+  @Prop({ default: '' }) company_contact_person: string;
+  @Prop({ default: '' }) company_contanct_no: string;
+  @Prop({ default: '' }) company_email: string;
+  @Prop({ default: '' }) company_city: string;
+  @Prop({ default: '' }) company_state: string;
+  @Prop({ default: '' }) company_country: string;
+  @Prop({ default: '' }) company_pincode: string;
 
-    @Prop({default:''})
-    company_name:String;
-    
-    @Prop({default:''})
-    company_address:String;
-    
-    @Prop({default:''})
-    company_contact_person:String;
-    
-    @Prop({default:''})
-    company_contanct_no:String;
-    
-    @Prop({default:''})
-    company_email:String;
-    
-    @Prop({default:''})
-    company_city:String;
-    
-    @Prop({default:''})
-    company_state:String;
-    
-    @Prop({default:''})
-    company_country:String;
-    
-    @Prop({default:''})
-    company_pincode:String;
+  @Prop({ default: '' }) application_name: string;
+  @Prop({ default: '' }) default_currency: string;
+  @Prop({ default: '' }) dafault_date_format: string;
+  @Prop({ default: '' }) default_currency_appfix: string;
+  @Prop({ default: '' }) default_currency_pos: string;
+  @Prop({ default: '' }) footer_text: string;
+  @Prop({ default: false }) is_year_footer: boolean;
+  @Prop({ default: false }) enableCodeigniterFooter: boolean;
 
-    @Prop({default:''})
-    application_name:String;
+  @Prop({ default: false }) emp_manage_contact: boolean;
+  @Prop({ default: false }) emp_manage_bank: boolean;
+  @Prop({ default: false }) emp_manage_qualification: boolean;
+  @Prop({ default: false }) emp_manage_work_exp: boolean;
+  @Prop({ default: false }) emp_manage_doc: boolean;
+  @Prop({ default: false }) emp_manage_profile_pic: boolean;
+  @Prop({ default: false }) emp_manage_profile_info: boolean;
+  @Prop({ default: false }) emp_manage_social_info: boolean;
+  @Prop({ default: false }) enable_clock_in_btn: boolean;
+  @Prop({ default: false }) enable_clock_in_out: boolean;
 
-    @Prop({default:''})
-    default_currency:String;
+  @Prop({ default: '' }) payslip_pass_format: string;
+  @Prop({ default: false }) enable_payslip_password: boolean;
+  @Prop({ default: null }) payslip_logo: string;
 
-    @Prop({default:''})
-    dafault_date_format:String;
+  @Prop({ default: false }) enable_employee_job: boolean;
+  @Prop({ type: [String], default: [] }) job_app_format: string[];
 
-    @Prop({default:''})
-    default_currency_appfix:String;
+  @Prop({ default: null }) job_list_logo: string;
+  @Prop({ default: false }) enable_email_notifi: boolean;
 
-    @Prop({default:''})
-    default_currency_pos:String;
-
-    @Prop({default:''})
-    footer_text:String;
-
-    @Prop({default:null})
-    is_year_footer:Boolean;
-
-    @Prop({default:null})
-    emp_manage_contact:Boolean;
-
-    @Prop({default:null})
-    emp_manage_bank:Boolean;
-
-    @Prop({default:null})
-    emp_manage_qualification:Boolean;
-
-    @Prop({default:null})
-    emp_manage_work_exp:Boolean;
-
-    @Prop({default:null})
-    emp_manage_doc:Boolean;
-
-    @Prop({default:null})
-    emp_manage_profile_pic:Boolean;
-
-    @Prop({default:null})
-    emp_manage_profile_info:Boolean;
-
-    @Prop({default:null})
-    emp_manage_social_info:Boolean;
-
-    @Prop({default:null})
-    enable_clock_in_btn:Boolean;
-
-    @Prop({default:null})
-    enable_clock_in_out:Boolean;
-
-    @Prop({default:''})
-    payslip_pass_format:String;
-
-    @Prop({default:null})
-    enable_payslip_password:Boolean;
-
-    @Prop({default:null})
-    payslip_logo:String;
-
-    @Prop({default:null})
-    enable_employee_job:Boolean;
-
-    @Prop({default:null})
-    job_app_format:Array<String>;
-
-    @Prop({default:null})
-    job_list_logo:String;
-
-    @Prop({default:null})
-    enable_email_notifi:Boolean;
-
-    @Prop({default:null})
-    file_size:Number;
-
-    @Prop({default:null})
-    file_format:Array<String>;
-
+  @Prop({ default: 0 }) file_size: number;
+  @Prop({ type: [String], default: [] }) file_format: string[];
 }
 
-export const Settingschema = SchemaFactory.createForClass(Settings)
+export const SettingsSchema = SchemaFactory.createForClass(Settings);

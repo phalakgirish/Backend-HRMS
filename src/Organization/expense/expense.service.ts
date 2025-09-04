@@ -6,6 +6,7 @@ import { Expense, ExpenseDocument } from './schema/expense.schema';
 
 @Injectable()
 export class ExpenseService {
+
   constructor(@InjectModel(Expense.name) private expenseModel: Model<ExpenseDocument>) { }
 
   async create(CreateExpenseDto: CreateExpenseDto): Promise<Expense> {
@@ -17,37 +18,55 @@ export class ExpenseService {
     return this.expenseModel.find().exec();
   }
 
-   async update(id: string, updateDto: Partial<CreateExpenseDto>): Promise<Expense> {
-    try {
-      const updated = await this.expenseModel.findByIdAndUpdate(id, updateDto, {
-        new: true,
-        runValidators: true,
-      });
+  //  async update(id: string, updateDto: Partial<CreateExpenseDto>): Promise<Expense> {
+  //   try {
+  //     const updated = await this.expenseModel.findByIdAndUpdate(id, updateDto, {
+  //       new: true,
+  //       runValidators: true,
+  //     });
 
-      if (!updated) {
-        throw new NotFoundException(`Expense with ID ${id} not found`);
-      }
+  //     if (!updated) {
+  //       throw new NotFoundException(`Expense with ID ${id} not found`);
+  //     }
 
-      return updated;
-    } catch (error) {
-      console.error('Mongoose update error:', error.message, error);
-      throw new InternalServerErrorException('Error updating Expense');
-    }
+  //     return updated;
+  //   } catch (error) {
+  //     console.error('Mongoose update error:', error.message, error);
+  //     throw new InternalServerErrorException('Error updating Expense');
+  //   }
+  // }
+
+  async update(id: string, updateDto: Partial<CreateExpenseDto>): Promise<Expense> {
+  const updated = await this.expenseModel.findByIdAndUpdate(id, updateDto, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!updated) {
+    throw new NotFoundException(`Expense with ID ${id} not found`);
   }
 
-
- async delete(id: string): Promise<{ message: string }> {
-  if (!isValidObjectId(id)) {
-    throw new BadRequestException('Invalid ID format');
-  }
-
-  const result = await this.expenseModel.findByIdAndDelete(id);
-  if (!result) {
-    throw new NotFoundException(`Expense with id ${id} not found`);
-  }
-
-  return { message: 'Expense deleted successfully' };
+  return updated;
 }
+
+
+  async findOne(id: string): Promise<Expense | null> {
+    return this.expenseModel.findById(id).exec();
+  }
+
+
+  async delete(id: string): Promise<{ message: string }> {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException('Invalid ID format');
+    }
+
+    const result = await this.expenseModel.findByIdAndDelete(id);
+    if (!result) {
+      throw new NotFoundException(`Expense with id ${id} not found`);
+    }
+
+    return { message: 'Expense deleted successfully' };
+  }
 
 
 }

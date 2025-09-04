@@ -31,4 +31,9 @@ export class CreateExpenseDto {
     @IsString()
     @IsNotEmpty()
     description: string;
+
+    @ApiProperty({ required: false })
+    @IsString()
+    billCopy?: string;
+
 }
