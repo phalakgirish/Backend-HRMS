@@ -38,13 +38,36 @@ export class Settings extends Document {
   @Prop({ default: null }) payslip_logo: string;
 
   @Prop({ default: false }) enable_employee_job: boolean;
-  @Prop({ type: [String], default: [] }) job_app_format: string[];
+@Prop({
+  type: [String],
+  default: [
+    'doc', 'docx', 'jpeg', 'jpg', 'pdf', 'txt', 'excel',
+    'gif', 'png', 'mp3', 'mp4', 'flv', 'xls'
+  ]
+})
+job_app_format: string[];
 
   @Prop({ default: null }) job_list_logo: string;
   @Prop({ default: false }) enable_email_notifi: boolean;
 
+
+  @Prop({ default: '' }) animation_top_menu: string;
+  @Prop({ default: '' }) animation_modal_dialogs: string;
+
+  @Prop({ default: 'tr' })
+  notification_position: string;
+
+  @Prop({ default: false })
+  enable_close_btn: boolean;
+
+  @Prop({ default: false })
+  progress_bar: boolean;
+
   @Prop({ default: 0 }) file_size: number;
   @Prop({ type: [String], default: [] }) file_format: string[];
+
+  @Prop({ default: false }) emp_download_dept_file: boolean;
+
 }
 
 export const SettingsSchema = SchemaFactory.createForClass(Settings);

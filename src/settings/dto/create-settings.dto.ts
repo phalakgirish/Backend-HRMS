@@ -1,3 +1,5 @@
+import { IsBoolean, IsOptional, IsString } from "class-validator";
+
 export class CreateSettingDto {
   readonly company_name: string;
   readonly company_address: string;
@@ -33,13 +35,32 @@ export class CreateSettingDto {
   readonly payslip_pass_format: string;
   readonly enable_payslip_password: boolean;
   readonly payslip_logo: string;
-  
+
   readonly enable_employee_job: boolean;
   readonly job_app_format: string[];
 
   readonly job_list_logo: string;
   readonly enable_email_notifi: boolean;
 
+  readonly animation_top_menu?: string;
+  readonly animation_modal_dialogs?: string;
+
+  @IsOptional()
+  @IsString()
+  readonly notification_position?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  readonly enable_close_btn?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  readonly progress_bar?: boolean;
+
+
+
   readonly file_size: number;
   readonly file_format: string[];
+  readonly emp_download_dept_file?: boolean;
+
 }

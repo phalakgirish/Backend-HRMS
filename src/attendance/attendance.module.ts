@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { AttendanceController } from './attendance.controller';
 import { AttendanceService } from './attendance.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Attendanceschema } from './schema/attendance.schema';
+import { AttendanceSchema } from './schema/attendance.schema';
 
 @Module({
-  imports:[MongooseModule.forFeature([{name:'Attendance',schema:Attendanceschema}])],
+  imports:[MongooseModule.forFeature([{name:'Attendance',schema:AttendanceSchema}])],
   controllers: [AttendanceController],
   providers: [AttendanceService]
 })

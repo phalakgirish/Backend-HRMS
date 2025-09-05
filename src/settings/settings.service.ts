@@ -13,9 +13,24 @@ export class SettingsService {
     private readonly settingsModel: mongoose.Model<Settings>,
   ) {}
 
+// async findAll(): Promise<any> {
+//   const settings = await this.settingsModel.find().exec();
+//   return settings; 
+// }
+
 async findAll(): Promise<any> {
-  const settings = await this.settingsModel.find().exec();
-  return settings; 
+  const defaults = [
+    'doc','docx','jpeg','jpg','pdf','txt','excel',
+    'gif','png','mp3','mp4','flv','xls'
+  ];
+
+  const settings = await this.settingsModel.find().lean();
+
+  // Merge defaults for each settings document
+  return settings.map(s => ({
+    ...s,
+    job_app_format: s.job_app_format?.length ? s.job_app_format : defaults,
+  }));
 }
 
 

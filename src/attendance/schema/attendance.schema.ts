@@ -1,37 +1,22 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import {Types  } from "mongoose";
+import { Types, Document } from "mongoose";
 
-export class Attendance {
-    @Prop({ type: Types.ObjectId, ref: 'Employee', default:null }) // Reference to Location collection
-    employee_id:Types.ObjectId;
+@Schema({ timestamps: true })
+export class Attendance extends Document {
+  @Prop({ type: Types.ObjectId, ref: 'Employee', required: true })
+  employee_id: Types.ObjectId;
 
-    @Prop()
-    attendance_date:Date;
+  @Prop({ required: true })
+  attendance_date: Date;
 
-    @Prop()
-    attendance_clock_in:String;
-
-    @Prop()
-    attendacne_clock_out:String;
-
-    @Prop()
-    attencance_late:String;
-
-    @Prop()
-    attendance_early_leaving:String;
-
-    @Prop()
-    attendance_overtime:String;
-
-    @Prop()
-    attendance_total_work:String;
-
-    @Prop()
-    attendance_total_rest:String;
-
-    @Prop()
-    attendance_status:String;
-
+  @Prop() attendance_clock_in: string;
+  @Prop() attendance_clock_out: string;
+  @Prop() attendance_late: string;
+  @Prop() attendance_early_leaving: string;
+  @Prop() attendance_overtime: string;
+  @Prop() attendance_total_work: string;
+  @Prop() attendance_total_rest: string;
+  @Prop() attendance_status: string;
 }
 
-export const Attendanceschema = SchemaFactory.createForClass(Attendance)
+export const AttendanceSchema = SchemaFactory.createForClass(Attendance);
