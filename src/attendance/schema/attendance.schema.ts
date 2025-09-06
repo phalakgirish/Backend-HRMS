@@ -1,10 +1,17 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Types, Document } from "mongoose";
+import { Employee } from "src/Employees/employee/schema/employee.schema";
 
 @Schema({ timestamps: true })
 export class Attendance extends Document {
+  // @Prop({ type: Types.ObjectId, ref: 'Employee', required: true })
+  // employee_id: Types.ObjectId;
+
   @Prop({ type: Types.ObjectId, ref: 'Employee', required: true })
-  employee_id: Types.ObjectId;
+  employee_id: Employee | Types.ObjectId;
+
+  // @Prop({ required: true })
+  // name: string;
 
   @Prop({ required: true })
   attendance_date: Date;

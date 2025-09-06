@@ -23,11 +23,14 @@ export class AttendanceController {
         const end = new Date(date);
         end.setUTCHours(23, 59, 59, 999);
 
-        const records = await this.attendanceModel.find({
-            attendance_date: { $gte: start, $lte: end }
-        });
+      const records = await this.attendanceModel
+  .find({
+    attendance_date: { $gte: start, $lte: end }
+  })
+.populate('employee_id', 'firstName lastName');
 
-        return records;
+return records;
+
     }
 
     @Get('datewise')

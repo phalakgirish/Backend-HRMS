@@ -13,35 +13,73 @@ export class AttendanceService {
         private readonly attendanceModel: Model<Attendance>,
     ) { }
 
-    // Get all attendance
-    async findAll(): Promise<Attendance[]> {
-        const records = await this.attendanceModel.find().exec();
-        if (!records.length) throw new NotFoundException('No attendance records found');
-        return records;
-    }
+    // async findAll(): Promise<Attendance[]> {
+    //     const records = await this.attendanceModel.find().exec();
+    //     if (!records.length) throw new NotFoundException('No attendance records found');
+    //     return records;
+    // }
 
-    async findByEmployeeAndDate(emp_id: string, startDate?: string, endDate?: string): Promise<Attendance[]> {
-        if (!emp_id) throw new BadRequestException('Employee ID is required');
+    // async findByEmployeeAndDate(emp_id: string, startDate?: string, endDate?: string): Promise<Attendance[]> {
+    //     if (!emp_id) throw new BadRequestException('Employee ID is required');
 
-        const start = startDate ? new Date(`${startDate}T00:00:00.000Z`) : new Date('1970-01-01T00:00:00.000Z');
-        const end = endDate ? new Date(`${endDate}T23:59:59.999Z`) : new Date();
+    //     const start = startDate ? new Date(`${startDate}T00:00:00.000Z`) : new Date('1970-01-01T00:00:00.000Z');
+    //     const end = endDate ? new Date(`${endDate}T23:59:59.999Z`) : new Date();
 
-        const records = await this.attendanceModel.find({
-            employee_id: new Types.ObjectId(emp_id),
-            attendance_date: { $gte: start, $lte: end },
-        }).exec();
+    //     const records = await this.attendanceModel.find({
+    //         employee_id: new Types.ObjectId(emp_id),
+    //         attendance_date: { $gte: start, $lte: end },
 
-        if (!records.length) throw new NotFoundException('Attendance not found');
-        return records;
-    }
+    //     })
+    //         .populate('employee_id', 'firstName lastName')
 
-    async create(attendance: any): Promise<Attendance> {
-        const attendanceData = {
-            ...attendance,
-            employee_id: new Types.ObjectId(attendance.employee_id), // ensure ObjectId
-        };
-        return this.attendanceModel.create(attendanceData);
-    }
+    //         .exec();
+
+
+    //     if (!records.length) throw new NotFoundException('Attendance not found');
+    //     return records;
+    // }
+
+    async findByEmployeeAndDate(emp_id: string, startDate?: string, endDate?: string): Promise<any[]> {
+    if (!emp_id) throw new BadRequestException('Employee ID is required');
+
+    const start = startDate ? new Date(`${startDate}T00:00:00.000Z`) : new Date('1970-01-01T00:00:00.000Z');
+    const end = endDate ? new Date(`${endDate}T23:59:59.999Z`) : new Date();
+
+    const records = await this.attendanceModel.find({
+        employee_id: new Types.ObjectId(emp_id),
+        attendance_date: { $gte: start, $lte: end },
+    })
+    .populate('employee_id', 'firstName lastName')
+    .exec();
+
+    if (!records.length) throw new NotFoundException('Attendance not found');
+
+   return records.map(r => {
+    const employee = r.employee_id as any;
+    return {
+        ...r.toObject(),
+        name: employee ? `${employee.firstName} ${employee.lastName}` : '-'
+    };
+});
+
+}
+
+
+    async create(attendance: any): Promise<any> {
+    const attendanceData = {
+        ...attendance,
+        employee_id: new Types.ObjectId(attendance.employee_id),
+    };
+
+    const newRecord = await this.attendanceModel.create(attendanceData);
+
+    // Populate firstName & lastName
+    return this.attendanceModel
+        .findById(newRecord._id)
+        .populate('employee_id', 'firstName lastName')
+        .exec();
+}
+
 
     async updateById(id: string, updateData: any): Promise<Attendance> {
         if (!Types.ObjectId.isValid(id)) throw new BadRequestException('Invalid MongoDB ID');
@@ -84,69 +122,98 @@ export class AttendanceService {
         return { deleted: true };
     }
 
-//    async import(records: any[]): Promise<any[]> {
-//     const results: any[] = [];
+    //    async import(records: any[]): Promise<any[]> {
+    //     const results: any[] = [];
 
-//     for (const record of records) {
-//         const attendanceData = {
-//             ...record,
-//             employee_id: new Types.ObjectId(record.employee_id),
-//             attendance_late: '',
-//             attendance_early_leaving: '',
-//             attendance_overtime: '',
-//             attendance_total_work: '',
-//             attendance_total_rest: '',
-//             attendance_status: record.attendance_status || 'Present',
-//         };
+    //     for (const record of records) {
+    //         const attendanceData = {
+    //             ...record,
+    //             employee_id: new Types.ObjectId(record.employee_id),
+    //             attendance_late: '',
+    //             attendance_early_leaving: '',
+    //             attendance_overtime: '',
+    //             attendance_total_work: '',
+    //             attendance_total_rest: '',
+    //             attendance_status: record.attendance_status || 'Present',
+    //         };
 
-//         const newRecord = await this.attendanceModel.create(attendanceData);
-//         results.push({ ...record, id: newRecord._id, msg: 'Attendance added successfully' });
-//     }
+    //         const newRecord = await this.attendanceModel.create(attendanceData);
+    //         results.push({ ...record, id: newRecord._id, msg: 'Attendance added successfully' });
+    //     }
 
-//     return results;
-// }
+    //     return results;
+    // }
 
-async import(records: any[]): Promise<any[]> {
-    const results: any[] = [];
+    async import(records: any[]): Promise<any[]> {
+        const results: any[] = [];
 
-    for (const record of records) {
-        const attendanceDate = new Date(`${record.attendance_date}T00:00:00.000Z`);
-        const clockIn = record.attendance_clock_in ? record.attendance_clock_in : '09:00';
-        const clockOut = record.attendance_clock_out ? record.attendance_clock_out : '18:00';
+        for (const record of records) {
+            const attendanceDate = new Date(`${record.attendance_date}T00:00:00.000Z`);
+            const clockIn = record.attendance_clock_in ? record.attendance_clock_in : '09:00';
+            const clockOut = record.attendance_clock_out ? record.attendance_clock_out : '18:00';
 
-        // Calculate total work in hours
-        const [inH, inM] = clockIn.split(':').map(Number);
-        const [outH, outM] = clockOut.split(':').map(Number);
-        const totalWorkHours = (outH + outM / 60) - (inH + inM / 60);
+            // Calculate total work in hours
+            const [inH, inM] = clockIn.split(':').map(Number);
+            const [outH, outM] = clockOut.split(':').map(Number);
+            const totalWorkHours = (outH + outM / 60) - (inH + inM / 60);
 
-        const attendanceData = {
-            ...record,
-            employee_id: new Types.ObjectId(record.employee_id),
-            attendance_late: '', // you can calculate based on shift start
-            attendance_early_leaving: '', // calculate based on shift end
-            attendance_overtime: totalWorkHours > 8 ? (totalWorkHours - 8).toFixed(2) : '0',
-            attendance_total_work: totalWorkHours.toFixed(2),
-            attendance_total_rest: '', // optional calculation
-            attendance_status: record.attendance_status || 'Present',
-        };
+            const attendanceData = {
+                ...record,
+                employee_id: new Types.ObjectId(record.employee_id),
+                attendance_late: '', // you can calculate based on shift start
+                attendance_early_leaving: '', // calculate based on shift end
+                attendance_overtime: totalWorkHours > 8 ? (totalWorkHours - 8).toFixed(2) : '0',
+                attendance_total_work: totalWorkHours.toFixed(2),
+                attendance_total_rest: '', // optional calculation
+                attendance_status: record.attendance_status || 'Present',
+            };
 
-        const existing = await this.attendanceModel.findOne({
-            employee_id: attendanceData.employee_id,
-            attendance_date: attendanceDate
-        });
+            const existing = await this.attendanceModel.findOne({
+                employee_id: attendanceData.employee_id,
+                attendance_date: attendanceDate
+            });
 
-        if (existing) {
-            // Skip or update duplicates
-            results.push({ ...record, msg: 'Duplicate, skipped' });
-            continue;
+            if (existing) {
+                // Skip or update duplicates
+                results.push({ ...record, msg: 'Duplicate, skipped' });
+                continue;
+            }
+
+            const newRecord = await this.attendanceModel.create(attendanceData);
+            results.push({ ...record, id: newRecord._id, msg: 'Attendance added successfully' });
         }
 
-        const newRecord = await this.attendanceModel.create(attendanceData);
-        results.push({ ...record, id: newRecord._id, msg: 'Attendance added successfully' });
+        return results;
     }
 
-    return results;
-}
+
+
+    async findAll(): Promise<any> {
+        return this.attendanceModel
+            .find()
+            .populate('employee_id', 'name') // fetch only employee name
+            .exec();
+    }
+
+    async findByDate(start: Date, end: Date): Promise<any> {
+        return this.attendanceModel
+            .find({
+                attendance_date: { $gte: start, $lte: end },
+            })
+            .populate('employee_id', 'firstName lastName')
+            .exec();
+    }
+
+
+    async findByEmployee(emp_id: string, start: Date, end: Date): Promise<any> {
+        return this.attendanceModel
+            .find({
+                employee_id: new Types.ObjectId(emp_id),
+                attendance_date: { $gte: start, $lte: end },
+            })
+            .populate('employee_id', 'firstName lastName')
+            .exec();
+    }
 
 
 }
