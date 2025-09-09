@@ -6,7 +6,10 @@ export type EmployeeDocument = Employee & Document;
 @Schema()
 export class Employee {
 
-    @Prop({ type: String,unique:true })
+    @Prop({ type: Number, unique: true })
+numericEmployeeId: number; //for 1,2,3,4
+
+    @Prop({ type: String, unique: true })
     id: string;
 
     @Prop({

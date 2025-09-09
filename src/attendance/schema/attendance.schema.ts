@@ -10,8 +10,8 @@ export class Attendance extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Employee', required: true })
   employee_id: Employee | Types.ObjectId;
 
-  // @Prop({ required: true })
-  // name: string;
+  @Prop()
+  employee_name: string;
 
   @Prop({ required: true })
   attendance_date: Date;
@@ -24,6 +24,8 @@ export class Attendance extends Document {
   @Prop() attendance_total_work: string;
   @Prop() attendance_total_rest: string;
   @Prop() attendance_status: string;
+  @Prop() attendance_reason: string;
+
 }
 
 export const AttendanceSchema = SchemaFactory.createForClass(Attendance);

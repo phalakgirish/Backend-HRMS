@@ -4,6 +4,9 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UpdateAttendanceDto {
   @ApiProperty({ description: 'Employee ObjectId', required: false })
   readonly employee_id?: Types.ObjectId;
+  
+  @ApiProperty({ description: 'employee name', required: false })
+  readonly employee_name?: string;
 
   @ApiProperty({ description: 'Attendance date (YYYY-MM-DD)', required: false })
   readonly attendance_date?: Date;
@@ -31,4 +34,7 @@ export class UpdateAttendanceDto {
 
   @ApiProperty({ description: 'Attendance status', example: 'Present', required: false })
   readonly attendance_status?: string;
+
+   @ApiProperty({ description: 'Attendance Reason', example: 'half day leave', required: false })
+  readonly attendance_reason?: string;
 }

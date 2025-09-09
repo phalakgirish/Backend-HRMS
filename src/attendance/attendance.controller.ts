@@ -23,13 +23,13 @@ export class AttendanceController {
         const end = new Date(date);
         end.setUTCHours(23, 59, 59, 999);
 
-      const records = await this.attendanceModel
-  .find({
-    attendance_date: { $gte: start, $lte: end }
-  })
-.populate('employee_id', 'firstName lastName');
+        const records = await this.attendanceModel
+            .find({
+                attendance_date: { $gte: start, $lte: end }
+            })
+            .populate('employee_id', 'firstName lastName');
 
-return records;
+        return records;
 
     }
 
@@ -62,17 +62,9 @@ return records;
         return this.attendanceService.create(data);
     }
 
-    // @Put(':id')
-    // @ApiParam({ name: 'id', type: String })
-    // async update(@Param('id') id: string, @Body() data: any) {
-    //     return this.attendanceService.updateById(id, data);
-    // }
-
-    @Put('update')
-    @ApiOperation({ summary: 'Update attendance by ID or by employee & date' })
-    @ApiQuery({ name: 'id', type: String, required: false, description: 'Attendance ID' })
-    @ApiQuery({ name: 'emp_id', type: String, required: false, description: 'Employee ID' })
-    @ApiQuery({ name: 'attendance_date', type: String, required: false, description: 'Attendance date (YYYY-MM-DD)' })
+    @Put('update-attendance/:id')
+    @ApiOperation({ summary: 'Update attendance by ID' })
+    @ApiParam({ name: 'id', type: String, description: 'Attendance ID' })
     @ApiBody({
         schema: {
             example: {
@@ -82,15 +74,9 @@ return records;
             }
         }
     })
-    async update(
-        @Query('id') id: string,
-        @Query('emp_id') emp_id: string,
-        @Query('attendance_date') attendance_date: string,
-        @Body() updateData: any
-    ) {
-        return this.attendanceService.updateAttendance(id, emp_id, attendance_date, updateData);
+    async updateById(@Param('id') id: string, @Body() updateData: any) {
+        return this.attendanceService.updateById(id, updateData);
     }
-
 
     @Delete(':id')
     @ApiParam({ name: 'id', type: String })
@@ -100,7 +86,14 @@ return records;
 
     @Post('import')
     async import(@Body() records: any[]) {
-        return this.attendanceService.import(records);
+        if (!Array.isArray(records) || !records.length) {
+            throw new BadRequestException('No records provided for import');
+        }
+
+        const result = await this.attendanceService.import(records);
+        return { total: result.length, results: result };
     }
+
+
 
 }

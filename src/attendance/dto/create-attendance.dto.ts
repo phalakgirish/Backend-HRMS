@@ -5,6 +5,9 @@ export class CreateAttendanceDto {
   @ApiProperty({ description: 'Employee ObjectId' })
   readonly employee_id: Types.ObjectId;
 
+  @ApiProperty({ description: 'employee name', required: false })
+  readonly employee_name?: string;
+
   @ApiProperty({ description: 'Attendance date (YYYY-MM-DD)' })
   readonly attendance_date: Date;
 
@@ -31,4 +34,7 @@ export class CreateAttendanceDto {
 
   @ApiProperty({ description: 'Attendance status', example: 'Present', required: false })
   readonly attendance_status?: string;
+
+   @ApiProperty({ description: 'Attendance Reason', example: 'half day leave', required: false })
+  readonly attendance_reason?: string;
 }
