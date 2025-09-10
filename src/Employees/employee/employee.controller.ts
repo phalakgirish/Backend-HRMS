@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -23,6 +23,18 @@ export class EmployeeController {
   findAll(): Promise<Employee[]> {
     return this.employeeService.findAll();
   }
+
+  @Get(':id')
+@ApiOperation({ summary: 'Get an employee by ID' })
+@ApiResponse({ status: 200, description: 'Employee fetched successfully', type: Employee })
+async findOne(@Param('id') id: string): Promise<Employee> {
+  const employee = await this.employeeService.findOneById(id);
+  if (!employee) {
+    throw new NotFoundException(`Employee with ID ${id} not found`);
+  }
+  return employee;
+}
+
 
   
   @Put(':id')

@@ -87,6 +87,12 @@ numericEmployeeId: number; //for 1,2,3,4
     @Prop()
     confirmationDate: string;
 
+     @Prop()
+    approvalByOne: string;
+
+     @Prop()
+    approvalByTwo: string;
+
     @Prop()
     bloodGroup: string;
 

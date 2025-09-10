@@ -112,6 +112,14 @@ export class CreateEmployeeDto {
 
     @ApiProperty()
     @IsString()
+    approvalByOne: string;
+
+     @ApiProperty()
+    @IsString()
+    approvalByTwo: string;
+
+    @ApiProperty()
+    @IsString()
     @IsNotEmpty()
     bloodGroup: string;
 
@@ -141,12 +149,12 @@ export class CreateEmployeeDto {
     @IsOptional()
     grade?: string;
 
-     @ApiProperty()
+    @ApiProperty()
     @IsString()
     @IsNotEmpty()
     password: string;
 
-     @ApiProperty()
+    @ApiProperty()
     @IsString()
     @IsNotEmpty()
     confirmPassword: string;

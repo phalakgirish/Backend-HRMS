@@ -5,7 +5,9 @@ import mongoose, { Model, Types } from 'mongoose';
 import { Employee } from 'src/Employees/employee/schema/employee.schema';
 
 @Injectable()
+
 export class AttendanceService {
+
     delete(id: string) {
         throw new Error('Method not implemented.');
     }
@@ -15,7 +17,7 @@ export class AttendanceService {
     constructor(
         @InjectModel(Attendance.name)
         private readonly attendanceModel: Model<Attendance>,
-        @InjectModel(Employee.name) private readonly employeeModel: Model<Employee>, 
+        @InjectModel(Employee.name) private readonly employeeModel: Model<Employee>,
 
     ) { }
 
@@ -120,65 +122,114 @@ export class AttendanceService {
         return record;
     }
 
-   async deleteById(id: string) {
-  const result = await this.attendanceModel.findByIdAndDelete(id);
-  if (!result) {
-    throw new NotFoundException(`Attendance record with id ${id} not found`);
-  }
-  return { message: 'Deleted successfully', id };
-}
+    async deleteById(id: string) {
+        const result = await this.attendanceModel.findByIdAndDelete(id);
+        if (!result) {
+            throw new NotFoundException(`Attendance record with id ${id} not found`);
+        }
+        return { message: 'Deleted successfully', id };
+    }
 
+    // async import(records: any[]): Promise<any[]> {
+    //     const results: any[] = [];
 
-    //     async import(records: any[]): Promise<any[]> {
-    //         const results: any[] = [];
+    //     for (const record of records) {
+    //         try {
+    //             const employee = await this.employeeModel.findOne({ id: record.employee_id });
+    //             if (!employee) {
+    //                 results.push({ ...record, msg: 'Employee not found, skipped' });
+    //                 continue;
+    //             }
 
-    //         for (const record of records) {
     //             const attendanceDate = new Date(`${record.attendance_date}T00:00:00.000Z`);
-    //             const clockIn = record.attendance_clock_in ? record.attendance_clock_in : '09:00';
-    //             const clockOut = record.attendance_clock_out ? record.attendance_clock_out : '18:00';
-
-    //             // Calculate total work in hours
+    //             const clockIn = record.attendance_clock_in || '09:00';
+    //             const clockOut = record.attendance_clock_out || '18:00';
     //             const [inH, inM] = clockIn.split(':').map(Number);
     //             const [outH, outM] = clockOut.split(':').map(Number);
     //             const totalWorkHours = (outH + outM / 60) - (inH + inM / 60);
 
-    //             const employee = await this.employeeModel.findById(record.employee_id);
-    //             const attendanceData = {
-    //                 ...record,
-    //                 employee_id: new Types.ObjectId(record.employee_id),
-    //                 employee_name: employee ? `${employee.firstName} ${employee.lastName}` : '',
-    //                 attendance_late: '',
-    //                 attendance_early_leaving: '',
-    //                 attendance_overtime: totalWorkHours > 8 ? (totalWorkHours - 8).toFixed(2) : '0',
-    //                 attendance_total_work: totalWorkHours.toFixed(2),
-    //                 attendance_total_rest: '',
-    //                 attendance_status: record.attendance_status || 'Present',
-    //             };
-
-
     //             const existing = await this.attendanceModel.findOne({
-    //                 employee_id: attendanceData.employee_id,
-    //                 attendance_date: attendanceDate
+    //                 employee_id: employee._id,
+    //                 attendance_date: attendanceDate,
     //             });
-
     //             if (existing) {
     //                 results.push({ ...record, msg: 'Duplicate, skipped' });
     //                 continue;
     //             }
 
+    //             const attendanceData = {
+    //                 employee_id: employee._id,
+    //                 employee_name: `${employee.firstName} ${employee.lastName}`,
+    //                 attendance_date: attendanceDate,
+    //                 attendance_clock_in: clockIn,
+    //                 attendance_clock_out: clockOut,
+    //                 attendance_total_work: totalWorkHours.toFixed(2),
+    //                 attendance_overtime: totalWorkHours > 8 ? (totalWorkHours - 8).toFixed(2) : '0',
+    //                 attendance_late: record.attendance_late || '0',
+    //                 attendance_early_leaving: record.attendance_early_leaving || '0',
+    //                 attendance_total_rest: record.attendance_total_rest || '0',
+    //                 attendance_status: record.attendance_status || 'Present',
+    //                 attendance_reason: record.attendance_reason || '',
+    //             };
+
     //             const newRecord = await this.attendanceModel.create(attendanceData);
-    //             // results.push({ ...record, id: newRecord._id, msg: 'Attendance added successfully' });
-    //             results.push({ 
-    //     ...record, 
-    //     id: newRecord._id, 
-    //     employee_name: newRecord.employee_name,  // <-- add this
-    //     msg: 'Attendance added successfully' 
-    // });
 
+    //             results.push({
+    //                 ...record,
+    //                 id: newRecord._id,
+    //                 employee_name: newRecord.employee_name,
+    //                 msg: 'Attendance added successfully',
+    //             });
+
+    //         } catch (err) {
+    //             console.error('Error importing record:', record, err.message);
+    //             results.push({ ...record, msg: `Error: ${err.message}` });
     //         }
-
-    //         return results;
     //     }
+
+    //     return results;
+    // }
+
+    private normalizeDate(dateString: string): Date {
+        if (!dateString) throw new Error("Empty date");
+
+        const cleaned = dateString.replace(/\//g, "-");
+        const parts = cleaned.split("-");
+        if (parts.length === 3) {
+            let [year, month, day] = parts;
+
+            if (year.length !== 4) {
+                [month, day, year] = parts;
+            }
+
+            return new Date(
+                `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T00:00:00.000Z`
+            );
+        }
+
+        return new Date(dateString);
+    }
+
+   private getWorkHours(attendanceDate: Date, clockIn: string, clockOut: string): number {
+    let [inH, inM] = clockIn.split(":").map(Number);
+    let [outH, outM] = clockOut.split(":").map(Number);
+
+    const inDate = new Date(attendanceDate);
+    inDate.setUTCHours(inH, inM, 0, 0);
+
+    if (outH < inH) outH += 12; // handle 12-hour format
+
+    const outDate = new Date(attendanceDate);
+    outDate.setUTCHours(outH, outM, 0, 0);
+
+    if (outDate < inDate) outDate.setUTCDate(outDate.getUTCDate() + 1); // overnight
+
+    const diffHrs = (outDate.getTime() - inDate.getTime()) / (1000 * 60 * 60);
+
+    return parseFloat(diffHrs.toFixed(2)); // always a number
+}
+
+
 
     async import(records: any[]): Promise<any[]> {
         const results: any[] = [];
@@ -187,23 +238,29 @@ export class AttendanceService {
             try {
                 const employee = await this.employeeModel.findOne({ id: record.employee_id });
                 if (!employee) {
-                    results.push({ ...record, msg: 'Employee not found, skipped' });
+                    results.push({ ...record, msg: "Employee not found, skipped" });
                     continue;
                 }
 
-                const attendanceDate = new Date(`${record.attendance_date}T00:00:00.000Z`);
-                const clockIn = record.attendance_clock_in || '09:00';
-                const clockOut = record.attendance_clock_out || '18:00';
-                const [inH, inM] = clockIn.split(':').map(Number);
-                const [outH, outM] = clockOut.split(':').map(Number);
-                const totalWorkHours = (outH + outM / 60) - (inH + inM / 60);
+                const attendanceDate = this.normalizeDate(record.attendance_date);
+
+                const clockIn = record.attendance_clock_in;
+                const clockOut = record.attendance_clock_out;
+
+                const totalWorkHours = this.getWorkHours(attendanceDate, clockIn, clockOut);
+
+                const startOfDay = new Date(attendanceDate);
+                startOfDay.setUTCHours(0, 0, 0, 0);
+                const endOfDay = new Date(attendanceDate);
+                endOfDay.setUTCHours(23, 59, 59, 999);
 
                 const existing = await this.attendanceModel.findOne({
                     employee_id: employee._id,
-                    attendance_date: attendanceDate,
+                    attendance_date: { $gte: startOfDay, $lte: endOfDay },
                 });
+
                 if (existing) {
-                    results.push({ ...record, msg: 'Duplicate, skipped' });
+                    results.push({ ...record, msg: "Duplicate, skipped" });
                     continue;
                 }
 
@@ -213,13 +270,14 @@ export class AttendanceService {
                     attendance_date: attendanceDate,
                     attendance_clock_in: clockIn,
                     attendance_clock_out: clockOut,
-                    attendance_total_work: totalWorkHours.toFixed(2),
-                    attendance_overtime: totalWorkHours > 8 ? (totalWorkHours - 8).toFixed(2) : '0',
-                    attendance_late: record.attendance_late || '0',
-                    attendance_early_leaving: record.attendance_early_leaving || '0',
-                    attendance_total_rest: record.attendance_total_rest || '0',
-                    attendance_status: record.attendance_status || 'Present',
-                    attendance_reason: record.attendance_reason || '',
+                 attendance_total_work: totalWorkHours % 1 === 0 ? `${totalWorkHours}` : totalWorkHours.toFixed(2),
+attendance_overtime: totalWorkHours > 8 ? (totalWorkHours - 8).toFixed(2) : "0",
+
+                    attendance_late: record.attendance_late || "0",
+                    attendance_early_leaving: record.attendance_early_leaving || "0",
+                    attendance_total_rest: record.attendance_total_rest || "0",
+                    attendance_status: record.attendance_status || "Present",
+                    attendance_reason: record.attendance_reason || "",
                 };
 
                 const newRecord = await this.attendanceModel.create(attendanceData);
@@ -228,17 +286,17 @@ export class AttendanceService {
                     ...record,
                     id: newRecord._id,
                     employee_name: newRecord.employee_name,
-                    msg: 'Attendance added successfully',
+                    msg: "Attendance added successfully",
                 });
-
             } catch (err) {
-                console.error('Error importing record:', record, err.message);
+                console.error("Error importing record:", record, err.message);
                 results.push({ ...record, msg: `Error: ${err.message}` });
             }
         }
 
         return results;
     }
+
 
     async findAll(): Promise<any> {
         return this.attendanceModel
