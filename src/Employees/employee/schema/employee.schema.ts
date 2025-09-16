@@ -113,6 +113,12 @@ numericEmployeeId: number; //for 1,2,3,4
 
     @Prop()
     confirmPassword: string;
+
+     @Prop({ default: false })
+  monthlyEnabled: boolean;
+
+  @Prop({ default: '' })
+  monthly: string;
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);

@@ -6,6 +6,7 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 
 @Injectable()
 export class EmployeeService {
+
   findById(id: string) {
     throw new Error('Method not implemented.');
   }
@@ -19,7 +20,6 @@ export class EmployeeService {
     const createdUser = new this.employeeModel(createUserDto);
     return createdUser.save();
   }
-
 
   async update(id: string, updateDto: any): Promise<Employee> {
     try {
@@ -36,7 +36,6 @@ export class EmployeeService {
     }
   }
 
-
   async delete(id: string): Promise<{ message: string }> {
     console.log('Deleting employe with ID:', id);
     const result = await this.employeeModel.findByIdAndDelete(id);
@@ -47,7 +46,6 @@ export class EmployeeService {
     return { message: 'employe deleted successfully' };
   }
 
-
   async findAll(): Promise<Employee[]> {
     return this.employeeModel.find().exec();
   }
@@ -56,5 +54,18 @@ export class EmployeeService {
     return this.employeeModel.findById(id).exec();
   }
 
+  async updateMonthly(
+    id: string,
+    update: { monthlyEnabled: boolean; monthly: string },
+  ): Promise<Employee | null> {
+    return this.employeeModel.findOneAndUpdate(
+      { id }, 
+      {
+        monthlyEnabled: update.monthlyEnabled,
+        monthly: update.monthly,
+      },
+      { new: true },
+    );
+  }
 
 }

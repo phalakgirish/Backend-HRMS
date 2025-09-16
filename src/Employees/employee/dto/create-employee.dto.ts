@@ -114,7 +114,7 @@ export class CreateEmployeeDto {
     @IsString()
     approvalByOne: string;
 
-     @ApiProperty()
+    @ApiProperty()
     @IsString()
     approvalByTwo: string;
 
@@ -158,6 +158,16 @@ export class CreateEmployeeDto {
     @IsString()
     @IsNotEmpty()
     confirmPassword: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    monthlyEnabled: boolean;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    monthly: string;
 }
 
 function moment(value: any) {
