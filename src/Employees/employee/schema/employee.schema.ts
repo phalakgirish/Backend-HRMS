@@ -7,10 +7,13 @@ export type EmployeeDocument = Employee & Document;
 export class Employee {
 
     @Prop({ type: Number, unique: true })
-numericEmployeeId: number; //for 1,2,3,4
+    numericEmployeeId: number; //for 1,2,3,4
 
     @Prop({ type: String, unique: true })
     id: string;
+
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Location' })
+    locationId: string;
 
     @Prop({
         type: String,
@@ -87,10 +90,10 @@ numericEmployeeId: number; //for 1,2,3,4
     @Prop()
     confirmationDate: string;
 
-     @Prop()
+    @Prop()
     approvalByOne: string;
 
-     @Prop()
+    @Prop()
     approvalByTwo: string;
 
     @Prop()
@@ -114,11 +117,11 @@ numericEmployeeId: number; //for 1,2,3,4
     @Prop()
     confirmPassword: string;
 
-     @Prop({ default: false })
-  monthlyEnabled: boolean;
+    @Prop({ default: false })
+    monthlyEnabled: boolean;
 
-  @Prop({ default: '' })
-  monthly: string;
+    @Prop({ default: '' })
+    monthly: string;
 }
 
 export const EmployeeSchema = SchemaFactory.createForClass(Employee);

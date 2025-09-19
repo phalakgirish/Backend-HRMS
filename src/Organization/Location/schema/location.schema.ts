@@ -20,7 +20,9 @@ export class Location {
   @Prop() bankCode: string;
   @Prop() bankAccountNo: string;
   @Prop() addedBy: string;
-
+  @Prop({ type: String, unique: true })
+  id: string;
+  
   @Prop() basiSalary: string;
   @Prop() hra: string;
   @Prop() lta: string;
@@ -33,4 +35,4 @@ export class Location {
 
 
 
-export const LocationSchema =SchemaFactory.createForClass(Location);
+export const LocationSchema = SchemaFactory.createForClass(Location);

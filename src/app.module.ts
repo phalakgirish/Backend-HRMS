@@ -48,6 +48,7 @@ import { EmployeeAssetsModule } from './Employees/employee-assets/employee-asset
 import { ProfilePictureModule } from './Employees/profile-picture/profile-picture.module';
 import { SettingsModule } from './settings/settings.module';
 import { AttendanceModule } from './attendance/attendance.module';
+import { PayrollModule } from './payroll/payroll.module';
 
 @Module({
   imports: [MongooseModule.forRoot('mongodb://localhost:27017/hrms-api'),
@@ -59,7 +60,7 @@ import { AttendanceModule } from './attendance/attendance.module';
     TrainingListModule, SetRolesModule, JobCandidateModule, EmailTemplateModule, UsersModule ,UsersModule,OfficeShiftModule,
     EmployeeFamilyModule, EmployeeQualificationModule, EmployeeExperienceModule, EmployeeDocumentModule, EmployeeBankaccountModule,
     EmployeeShiftModule, EmployeeLocationModule, EmployeeAssetsModule, ProfilePictureModule, SettingsModule,
-    AttendanceModule
+    AttendanceModule, PayrollModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,7 +6,7 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 
 @Injectable()
 export class EmployeeService {
-
+  [x: string]: any;
   findById(id: string) {
     throw new Error('Method not implemented.');
   }
@@ -53,6 +53,14 @@ export class EmployeeService {
   async findOneById(id: string): Promise<Employee | null> {
     return this.employeeModel.findById(id).exec();
   }
+
+async findOneByCode(code: string): Promise<Employee | null> {
+  return this.employeeModel.findOne({ id: { $regex: `^${code.trim()}$`, $options: 'i' } }).exec();
+}
+
+
+
+
 
   async updateMonthly(
     id: string,

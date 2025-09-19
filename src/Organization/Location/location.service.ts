@@ -47,4 +47,12 @@ export class LocationService {
   async findAll(): Promise<Location[]> {
     return this.locationModel.find().exec();
   }
+
+
+  async findOneByName(name: string): Promise<Location | null> {
+  return this.locationModel.findOne({ locationName: name }).exec();
+}
+
+
+
 }

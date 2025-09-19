@@ -63,4 +63,16 @@ export class EmployeeController {
     return this.employeeService.updateMonthly(id, body);
   }
 
+   @Get('code/:code')
+@ApiOperation({ summary: 'Get an employee by employeeCode' })
+@ApiResponse({ status: 200, description: 'Employee fetched successfully', type: Employee })
+async findOneByCode(@Param('code') code: string): Promise<Employee> {
+  const employee = await this.employeeService.findOneByCode(code);
+  if (!employee) {
+    throw new NotFoundException(`Employee with code ${code} not found`);
+  }
+  return employee;
+}
+
+
 }

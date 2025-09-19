@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LocationService } from './location.service';
 import { CreateLocationDto } from './dto/create-location.dto';
@@ -44,6 +44,16 @@ export class LocationController {
   @ApiOperation({ summary: 'Delete a location' })
   async delete(@Param('id') id: string) {
     return this.locationService.delete(id);
+  }
+
+  @Get(':name')
+  @ApiOperation({ summary: 'Get location by name (Mumbai, Bangalore, etc.)' })
+  async findByName(@Param('name') name: string): Promise<Location> {
+    const location = await this.locationService.findOneByName(name);
+    if (!location) {
+      throw new NotFoundException(`Location ${name} not found`);
+    }
+    return location;
   }
   
 }
