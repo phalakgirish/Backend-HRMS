@@ -19,20 +19,24 @@ export class DepartmentController {
     return this.departmentService.create(CreateDepartmentDto);
   }
 
-@Put(':id')
-@ApiOperation({ summary: 'Update department' })
-@ApiResponse({ status: 200, description: 'Department updated successfully' })
-async update(@Param('id') id: string, @Body() body: any) {
-  try {
-    console.log('Updating department with ID:', id);
-    console.log('Update data:', body);
-    return await this.departmentService.update(id, body);
-  } catch (err) {
-    console.error('Update failed:', err);
-    throw new InternalServerErrorException('Something went wrong');
+  @Put(':id')
+  @ApiOperation({ summary: 'Update department' })
+  @ApiResponse({ status: 200, description: 'Department updated successfully' })
+  async update(@Param('id') id: string, @Body() body: any) {
+    try {
+      console.log('Updating department with ID:', id);
+      console.log('Update data:', body);
+      return await this.departmentService.update(id, body);
+    } catch (err) {
+      console.error('Update failed:', err);
+      throw new InternalServerErrorException('Something went wrong');
+    }
   }
-}
 
+   @Get('count')
+async getDepartmentCount(): Promise<number> {
+  return this.departmentService.countDepartments();
+}
 
   @Get()
   @ApiOperation({ summary: 'Get all department' })
@@ -40,10 +44,10 @@ async update(@Param('id') id: string, @Body() body: any) {
     return this.departmentService.findAll();
   }
 
-@Delete(':id')
-@ApiOperation({ summary: 'Delete a department' })
-async deleteDepartment(@Param('id') id: string) {
-  return this.departmentService.deleteDepartment(id);
-}
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a department' })
+  async deleteDepartment(@Param('id') id: string) {
+    return this.departmentService.deleteDepartment(id);
+  }
 
 }

@@ -1,47 +1,99 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+
 export class CreatePayrollDto {
-
-    @IsString()
+  @ApiProperty()
+  @IsString()
   empId: string;
-  
-    @ApiProperty()
-    @IsString()
-    tds: string;
 
-    @ApiProperty()
-    @IsString()
-    advance: string;
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  arrierAdjustmentPlus: number;
 
-   @ApiProperty()
-    @IsString()
-    arrierAdjustmentPlus: number;
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  arrierAdjustmentMinus: number;
 
-    @ApiProperty()
-    @IsString()
-    arrierAdjustmentMinus: string;
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  bonus: number;
 
-    @ApiProperty()
-    @IsString()
-    bonus: string;
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  employeeCtc?: number;
 
-    @ApiProperty()
-    @IsString()
-    groupInsPremium:string
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  tds?: number;
 
-    @ApiProperty()
-    @IsString()
-    incentive:string
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  advance?: number;
 
-    @ApiProperty()
-    @IsString()
-    lwf:string
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  groupInsPremium: number;
 
-    @ApiProperty()
-    @IsString()
-    paymentMethod:string
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  incentive: number;
 
-    @ApiProperty()
-    @IsString()
-    comments:string
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  lwf: number;
+
+  @ApiProperty()
+  @IsString()
+  paymentMethod: string;
+
+  @ApiProperty()
+  @IsString()
+  comments: string;
+
+  @ApiProperty()
+  @IsNumber()
+  basic: number;
+
+  @ApiProperty()
+  @IsNumber()
+  hra: number;
+
+  @ApiProperty()
+  @IsNumber()
+  lta: number;
+
+  @ApiProperty()
+  @IsNumber()
+  allowance: number;
+
+  @ApiProperty()
+  @IsNumber()
+  pfEmployer: number;
+
+  @ApiProperty()
+  @IsNumber()
+  medical: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  esc: number;
+
+  @ApiProperty()
+  @IsNumber()
+  gratuity: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  lop: number;
 }

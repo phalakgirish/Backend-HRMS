@@ -53,6 +53,13 @@ export class LocationService {
   return this.locationModel.findOne({ locationName: name }).exec();
 }
 
-
+async countLocations(): Promise<number> {
+    try {
+      return await this.locationModel.countDocuments().exec();
+    } catch (error) {
+      console.error('Error in countLocations:', error);
+      throw new InternalServerErrorException('Error counting employees');
+    }
+  }
 
 }

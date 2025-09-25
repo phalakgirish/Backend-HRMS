@@ -19,9 +19,9 @@ export class DepartmentService {
       console.log('Updating department with ID:', id);
       console.log('Update data:', updateDto);
       const updated = await this.departmentModel.findByIdAndUpdate(id, updateDto, { new: true });
-        if (!updated) {
-      throw new NotFoundException(`Department with ID ${id} not found`);
-    }
+      if (!updated) {
+        throw new NotFoundException(`Department with ID ${id} not found`);
+      }
       return updated;
     } catch (error) {
       console.error('Service update error:', error);
@@ -30,18 +30,28 @@ export class DepartmentService {
   }
 
 
-async deleteDepartment(id: string): Promise<{ message: string }> {
-  console.log('Deleting department with ID:', id); // Log here
-  const result = await this.departmentModel.findByIdAndDelete(id);
-  if (!result) {
-    throw new NotFoundException(`Department with id ${id} not found`);
+  async deleteDepartment(id: string): Promise<{ message: string }> {
+    console.log('Deleting department with ID:', id); // Log here
+    const result = await this.departmentModel.findByIdAndDelete(id);
+    if (!result) {
+      throw new NotFoundException(`Department with id ${id} not found`);
+    }
+    return { message: 'Department deleted successfully' };
   }
-  return { message: 'Department deleted successfully' };
-}
 
 
 
   async findAll(): Promise<Department[]> {
     return this.departmentModel.find().exec();
+  }
+
+
+  async countDepartments(): Promise<number> {
+    try {
+      return await this.departmentModel.countDocuments().exec();
+    } catch (error) {
+      console.error('Error in countDepartments:', error);
+      throw new InternalServerErrorException('Error counting employees');
+    }
   }
 }

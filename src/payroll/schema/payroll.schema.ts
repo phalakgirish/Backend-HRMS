@@ -5,42 +5,36 @@ export type PayrollDocument = Payroll & Document;
 
 @Schema()
 export class Payroll {
-    static toObject(): Payroll | PromiseLike<Payroll> {
-        throw new Error('Method not implemented.');
-    }
-     @Prop({ type: Types.ObjectId, ref: 'Employee', required: true })
-    empId: string;
-    
-    @Prop()
-    tds: string;
+  @Prop({ type: Types.ObjectId, ref: 'Employee', required: true })
+  empId: string;
 
-    @Prop()
-    advance: string;
+  @Prop() tds: number;
+  @Prop() advance: number;
+  @Prop() arrierAdjustmentPlus: number;
+  @Prop() arrierAdjustmentMinus: number;
+  @Prop() bonus: number;
+  @Prop() groupInsPremium: number;
+  @Prop() incentive: number;
+  @Prop() lwf: number;
+  @Prop() paymentMethod: string;
+  @Prop() comments: string;
+  
+@Prop() employeeCtc?: number;
 
-    @Prop()
-    arrierAdjustmentPlus: number;
-
-    @Prop()
-    arrierAdjustmentMinus: string;
-
-    @Prop()
-    bonus: string;
-
-    @Prop()
-    groupInsPremium: string
-
-    @Prop()
-    incentive: string
-
-    @Prop()
-    lwf: string
-
-    @Prop()
-    paymentMethod: string
-
-    @Prop()
-    comments: string
-
+  @Prop() basic: number;
+  @Prop() hra: number;
+  @Prop() lta: number;
+  @Prop() allowance: number;
+  @Prop() pfEmployer: number;
+  @Prop() pfEmployee: number;
+  @Prop() medical: number;
+  @Prop() esc: number;
+  @Prop() gratuity: number;
+  @Prop() executive: number;
+  @Prop() grossSalary: number;
+  @Prop() totalDeductions: number;
+  @Prop() netSalary: number;
+  @Prop() lop: number;
 }
 
 export const PayrollSchema = SchemaFactory.createForClass(Payroll);

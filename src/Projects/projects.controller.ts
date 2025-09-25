@@ -7,20 +7,24 @@ import { Projects } from './schema/projects.schema';
 @ApiTags('projects')
 @Controller('projects')
 export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService) {}
-    
+  constructor(private readonly projectsService: ProjectsService) { }
+
 
   @Post()
-async createProject(@Body() createProjectDto: CreateProjectsDto) {
-  console.log("Incoming project:", createProjectDto);
-  try {
-    return await this.projectsService.create(createProjectDto);
-  } catch (err) {
-    console.error("Error creating project:", err);
-    throw new InternalServerErrorException(err.message);
+  async createProject(@Body() createProjectDto: CreateProjectsDto) {
+    console.log("Incoming project:", createProjectDto);
+    try {
+      return await this.projectsService.create(createProjectDto);
+    } catch (err) {
+      console.error("Error creating project:", err);
+      throw new InternalServerErrorException(err.message);
+    }
   }
-}
 
+  @Get('count')
+  async getProjectCount(): Promise<number> {
+    return this.projectsService.countProjects();
+  }
 
   @Get()
   @ApiOperation({ summary: 'Get all project' })
@@ -28,7 +32,7 @@ async createProject(@Body() createProjectDto: CreateProjectsDto) {
     return this.projectsService.findAll();
   }
 
-  
+
   @Put(':id')
   @ApiOperation({ summary: 'Update project' })
   @ApiResponse({ status: 200, description: 'project updated successfully' })
@@ -42,13 +46,13 @@ async createProject(@Body() createProjectDto: CreateProjectsDto) {
       throw new InternalServerErrorException('Something went wrong');
     }
   }
-  
 
-  
+
+
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a project' })
   async delete(@Param('id') id: string) {
     return this.projectsService.delete(id);
   }
-  
+
 }

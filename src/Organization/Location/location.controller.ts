@@ -17,6 +17,11 @@ export class LocationController {
     return this.locationService.create(createLocationDto);
   }
 
+   @Get('count')
+  async getLocationCount(): Promise<number> {
+    return this.locationService.countLocations();
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get all location' })
   findAll(): Promise<Location[]> {

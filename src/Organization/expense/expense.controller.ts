@@ -72,6 +72,10 @@ export class ExpenseController {
     return res.download(filePath);
   }
 
+@Get('total')
+async getExpenseTotal(): Promise<number> {
+  return this.expenseService.sumExpenses();
+}
 
   @Get()
   findAll() {

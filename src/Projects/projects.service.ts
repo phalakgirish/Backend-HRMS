@@ -47,4 +47,14 @@ export class ProjectsService {
   async findAll(): Promise<Projects[]> {
     return this.projectsModel.find().exec();
   }
+
+   async countProjects(): Promise<number> {
+    try {
+      return await this.projectsModel.countDocuments().exec();
+    } catch (error) {
+      console.error('Error in countProjects:', error);
+      throw new InternalServerErrorException('Error counting employees');
+    }
+  }
+
 }

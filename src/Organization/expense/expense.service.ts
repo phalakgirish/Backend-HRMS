@@ -68,5 +68,17 @@ export class ExpenseService {
     return { message: 'Expense deleted successfully' };
   }
 
+  async sumExpenses(): Promise<number> {
+  try {
+    const result = await this.expenseModel.aggregate([
+      { $group: { _id: null, total: { $sum: "$amount" } } }
+    ]).exec();
+
+    return result.length > 0 ? result[0].total : 0;
+  } catch (error) {
+    console.error('Error in sumExpenses:', error);
+    throw new InternalServerErrorException('Error summing expenses');
+  }
+}
 
 }

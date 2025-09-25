@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ValidationPipe } from '@nestjs/common';
 
 
 async function bootstrap() {
@@ -25,5 +26,13 @@ async function bootstrap() {
   });
   await app.listen(process.env.PORT ?? 3000);
   
+  app.useGlobalPipes(
+  new ValidationPipe({
+    transform: true,
+    whitelist: true,
+    forbidNonWhitelisted: false,
+  }),
+);
+
 }
 bootstrap();

@@ -54,9 +54,9 @@ export class EmployeeService {
     return this.employeeModel.findById(id).exec();
   }
 
-async findOneByCode(code: string): Promise<Employee | null> {
-  return this.employeeModel.findOne({ id: { $regex: `^${code.trim()}$`, $options: 'i' } }).exec();
-}
+  async findOneByCode(code: string): Promise<Employee | null> {
+    return this.employeeModel.findOne({ id: { $regex: `^${code.trim()}$`, $options: 'i' } }).exec();
+  }
 
 
 
@@ -67,7 +67,7 @@ async findOneByCode(code: string): Promise<Employee | null> {
     update: { monthlyEnabled: boolean; monthly: string },
   ): Promise<Employee | null> {
     return this.employeeModel.findOneAndUpdate(
-      { id }, 
+      { id },
       {
         monthlyEnabled: update.monthlyEnabled,
         monthly: update.monthly,
@@ -75,5 +75,15 @@ async findOneByCode(code: string): Promise<Employee | null> {
       { new: true },
     );
   }
+
+  async countEmployees(): Promise<number> {
+    try {
+      return await this.employeeModel.countDocuments().exec();
+    } catch (error) {
+      console.error('Error in countEmployees:', error);
+      throw new InternalServerErrorException('Error counting employees');
+    }
+  }
+
 
 }
