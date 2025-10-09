@@ -9,6 +9,12 @@ export class Leave {
   employee: string;
 
   @Prop({ required: true })
+  employeeId: string;
+
+  @Prop({ required: true })
+  employeeCode: string;
+
+  @Prop({ required: true })
   leaveType: string;
 
   @Prop({ required: true })
@@ -17,23 +23,24 @@ export class Leave {
   @Prop({ required: true, type: Number })
   days: number;
 
-  @Prop({ required: true })
-  appliedOn: string;
+  @Prop({ type: Date, required: true })
+  appliedOn: Date;
 
-  @Prop({ required: true })
-  endDate: string;
+  @Prop({ type: Date, required: true })
+  endDate: Date;
+
 
   @Prop({
-          type: String,
-          set: (value: string) =>
-              value
-                  ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
-                  : value,
-      })
+    type: String,
+    set: (value: string) =>
+      value
+        ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+        : value,
+  })
   reason: string;
 
   @Prop({ default: "Pending" })
-status: string;
+  status: string;
 
 
   @Prop()

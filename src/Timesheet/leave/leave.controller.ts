@@ -23,6 +23,15 @@ export class LeaveController {
     return this.leaveService.findAll();
   }
 
+ @Get("employee/:employeeCode/:month")
+  async getLopDays(
+    @Param("employeeCode") employeeCode: string,
+    @Param("month") month: string,
+  ) {
+    const lopDays = await this.leaveService.getLopDays(employeeCode, month);
+    return { lopDays };
+  }
+
   
   @Put(':id')
   @ApiOperation({ summary: 'Update leave' })

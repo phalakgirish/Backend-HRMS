@@ -7,6 +7,12 @@ export class CreateLeaveDto {
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
+  employeeId: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
   employee: string;
 
   @ApiProperty()
@@ -24,26 +30,26 @@ export class CreateLeaveDto {
   @IsNotEmpty()
   days: number;
 
+  // ✅ Store as Date, not Number
   @ApiProperty()
   @IsDateString()
   @IsNotEmpty()
-  appliedOn: string;
+  appliedOn: Date;
 
   @ApiProperty()
   @IsDateString()
   @IsNotEmpty()
-  endDate: string;
+  endDate: Date;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   reason: string;
 
- @ApiProperty({ required: false })
-@IsOptional()
-@IsString()
-status?: string;
-
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  status?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
