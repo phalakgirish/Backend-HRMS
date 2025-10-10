@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Put, Param, InternalServerErrorException, Delete, Patch, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { PayrollService } from './payroll.service';
 import { CreatePayrollDto } from './dto/create-payroll.dto';
@@ -28,7 +28,19 @@ async findOne(@Param('empId') empId: string) {
   return this.payrollService.findOne(empId);
 }
 
+@Patch(':empId/status')
+async updatePaymentStatus(
+  @Param('empId') empId: string,
+  @Body('paymentStatus') paymentStatus: string,
+) {
+  // 1️⃣ Find payroll by empId
+  const payroll = await this.payrollService.findOne(empId);
+  if (!payroll) throw new NotFoundException(`Payroll not found for ${empId}`);
 
+  // 2️⃣ Update paymentStatus
+  return this.payrollService.update(payroll._id, { paymentStatus });
+}
+  
 
   @Put(':id')
   @ApiOperation({ summary: 'Update payroll' })

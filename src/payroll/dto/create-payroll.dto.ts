@@ -96,4 +96,13 @@ export class CreatePayrollDto {
   @IsNumber()
   @IsOptional()
   lop: number;
+
+ @ApiProperty()
+  @IsString()
+  paymentStatus: string;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  pt: number;
 }

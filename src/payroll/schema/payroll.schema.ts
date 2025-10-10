@@ -18,9 +18,9 @@ export class Payroll {
   @Prop() lwf: number;
   @Prop() paymentMethod: string;
   @Prop() comments: string;
-  
+   @Prop() paymentStatus: string;
 @Prop() employeeCtc?: number;
-
+@Prop() pt?: number;
   @Prop() basic: number;
   @Prop() hra: number;
   @Prop() lta: number;
