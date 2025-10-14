@@ -97,7 +97,7 @@ export class CreatePayrollDto {
   @IsOptional()
   lop: number;
 
- @ApiProperty()
+  @ApiProperty()
   @IsString()
   paymentStatus: string;
 
@@ -105,4 +105,22 @@ export class CreatePayrollDto {
   @IsNumber()
   @IsOptional()
   pt: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  paidDate: Date;
+
+  @ApiProperty()
+  @IsString()
+  month: string; 
+
+  @ApiProperty()
+  @IsNumber()
+  year: number; 
+
+  @ApiProperty()
+  @IsString()
+  paymentMonth: string; 
+
 }

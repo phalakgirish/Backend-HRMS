@@ -90,18 +90,51 @@ export class PayrollService {
 // }
 
 
+// async upsertPayroll(createPayrollDto: CreatePayrollDto): Promise<any> {
+//   try {
+//     const empId = createPayrollDto.empId;
+
+//     // ✅ Directly save whatever frontend sends
+//     const updatedPayroll = await this.payrollModel.findOneAndUpdate(
+//       { empId },
+//       { ...createPayrollDto },  // only persist values, no recalculation
+//       { new: true, upsert: true }
+//     ).lean();
+
+//     return updatedPayroll;
+//   } catch (error) {
+//     console.error('❌ PayrollService.upsertPayroll error:', error);
+//     throw new InternalServerErrorException(error.message || 'Payroll save failed');
+//   }
+// }
+
 async upsertPayroll(createPayrollDto: CreatePayrollDto): Promise<any> {
   try {
-    const empId = createPayrollDto.empId;
+    let { empId, month, year } = createPayrollDto;
 
-    // ✅ Directly save whatever frontend sends
-    const updatedPayroll = await this.payrollModel.findOneAndUpdate(
-      { empId },
-      { ...createPayrollDto },  // only persist values, no recalculation
-      { new: true, upsert: true }
-    ).lean();
+    // Auto-fill month/year if missing
+    const now = new Date();
+    if (!month) month = now.toLocaleString('default', { month: 'long' });
+    if (!year) year = now.getFullYear();
 
-    return updatedPayroll;
+    const existingPayroll = await this.payrollModel.findOne({ empId, month, year });
+
+    if (existingPayroll) {
+      return await this.payrollModel.findByIdAndUpdate(
+        existingPayroll._id,
+        { ...createPayrollDto, month, year, paymentMonth: `${month} ${year}` },
+        { new: true, runValidators: true }
+      );
+    }
+
+    const newPayroll = new this.payrollModel({
+      ...createPayrollDto,
+      month,
+      year,
+      paymentMonth: `${month} ${year}`,
+    });
+
+    return await newPayroll.save();
   } catch (error) {
     console.error('❌ PayrollService.upsertPayroll error:', error);
     throw new InternalServerErrorException(error.message || 'Payroll save failed');
@@ -130,25 +163,39 @@ async findAll(): Promise<any[]> {
 
 
 
+// async update(id: string, updateDto: Partial<CreatePayrollDto>): Promise<Payroll> {
+//   try {
+//     console.log('Updating Payrolly with ID:', id);
+//     console.log('Update data:', updateDto);
+
+//     const updated = await this.payrollModel.findByIdAndUpdate(id, updateDto, {
+//       new: true,
+//       runValidators: true,
+//     });
+
+//     if (!updated) {
+//       throw new NotFoundException(`Payroll with ID ${id} not found`);
+//     }
+
+//     return updated;
+//   } catch (error) {
+//     console.error('Service update error:', error);
+//     throw new InternalServerErrorException('Error updating Payroll');
+//   }
+// }
+
 async update(id: string, updateDto: Partial<CreatePayrollDto>): Promise<Payroll> {
-  try {
-    console.log('Updating Payrolly with ID:', id);
-    console.log('Update data:', updateDto);
-
-    const updated = await this.payrollModel.findByIdAndUpdate(id, updateDto, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updated) {
-      throw new NotFoundException(`Payroll with ID ${id} not found`);
-    }
-
-    return updated;
-  } catch (error) {
-    console.error('Service update error:', error);
-    throw new InternalServerErrorException('Error updating Payroll');
+  if (updateDto.paymentStatus === 'Paid' && !updateDto.paidDate) {
+    updateDto.paidDate = new Date();
   }
+
+  const updated = await this.payrollModel.findByIdAndUpdate(id, updateDto, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!updated) throw new NotFoundException(`Payroll with ID ${id} not found`);
+  return updated;
 }
 
   

@@ -18,9 +18,9 @@ export class Payroll {
   @Prop() lwf: number;
   @Prop() paymentMethod: string;
   @Prop() comments: string;
-   @Prop() paymentStatus: string;
-@Prop() employeeCtc?: number;
-@Prop() pt?: number;
+  @Prop() paymentStatus: string;
+  @Prop() employeeCtc?: number;
+  @Prop() pt?: number;
   @Prop() basic: number;
   @Prop() hra: number;
   @Prop() lta: number;
@@ -35,6 +35,11 @@ export class Payroll {
   @Prop() totalDeductions: number;
   @Prop() netSalary: number;
   @Prop() lop: number;
+  @Prop() paidDate: Date;
+  @Prop() month: string;
+  @Prop() year: number;
+  @Prop() paymentMonth: string;
+
 }
 
 export const PayrollSchema = SchemaFactory.createForClass(Payroll);

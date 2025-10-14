@@ -33,13 +33,17 @@ async updatePaymentStatus(
   @Param('empId') empId: string,
   @Body('paymentStatus') paymentStatus: string,
 ) {
-  // 1️⃣ Find payroll by empId
   const payroll = await this.payrollService.findOne(empId);
   if (!payroll) throw new NotFoundException(`Payroll not found for ${empId}`);
 
-  // 2️⃣ Update paymentStatus
-  return this.payrollService.update(payroll._id, { paymentStatus });
+  const updateData: any = { paymentStatus };
+  if (paymentStatus === 'Paid') {
+    updateData.paidDate = new Date(); 
+  }
+
+  return this.payrollService.update(payroll._id, updateData);
 }
+
   
 
   @Put(':id')
