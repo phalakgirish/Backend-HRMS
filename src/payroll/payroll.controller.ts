@@ -28,23 +28,41 @@ async findOne(@Param('empId') empId: string) {
   return this.payrollService.findOne(empId);
 }
 
+// @Patch(':empId/status')
+// async updatePaymentStatus(
+//   @Param('empId') empId: string,
+//   @Body('paymentStatus') paymentStatus: string,
+// ) {
+//   const payroll = await this.payrollService.findOne(empId);
+//   if (!payroll) throw new NotFoundException(`Payroll not found for ${empId}`);
+
+//   const updateData: any = { paymentStatus };
+//   if (paymentStatus === 'Paid') {
+//     updateData.paidDate = new Date(); 
+//   }
+
+//   return this.payrollService.update(payroll._id, updateData);
+// }
+
+  
 @Patch(':empId/status')
 async updatePaymentStatus(
   @Param('empId') empId: string,
   @Body('paymentStatus') paymentStatus: string,
+  @Body('month') month?: string,
+  @Body('year') year?: number,
 ) {
-  const payroll = await this.payrollService.findOne(empId);
+  const payroll = await this.payrollService.findOne(empId, month, year);
   if (!payroll) throw new NotFoundException(`Payroll not found for ${empId}`);
 
   const updateData: any = { paymentStatus };
   if (paymentStatus === 'Paid') {
-    updateData.paidDate = new Date(); 
+    updateData.paidDate = new Date();
   }
 
   return this.payrollService.update(payroll._id, updateData);
 }
 
-  
 
   @Put(':id')
   @ApiOperation({ summary: 'Update payroll' })

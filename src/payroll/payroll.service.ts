@@ -143,13 +143,27 @@ async upsertPayroll(createPayrollDto: CreatePayrollDto): Promise<any> {
 
 
 
-async findOne(empId: string): Promise<any> {
-  const payroll = await this.payrollModel.findOne({ empId }).lean();
+// async findOne(empId: string, month: string | undefined, year: number | undefined): Promise<any> {
+//   const payroll = await this.payrollModel.findOne({ empId }).lean();
+//   if (!payroll) throw new NotFoundException(`Payroll for ${empId} not found`);
+
+//   const totalCtc = (payroll.basic || 0) * 24;
+//   return { ...payroll, totalCtc };
+// }
+
+async findOne(empId: string, month?: string, year?: number): Promise<any> {
+  const filter: any = { empId };
+  if (month) filter.month = month;
+  if (year) filter.year = year;
+
+  const payroll = await this.payrollModel.findOne(filter).lean();
   if (!payroll) throw new NotFoundException(`Payroll for ${empId} not found`);
 
   const totalCtc = (payroll.basic || 0) * 24;
   return { ...payroll, totalCtc };
 }
+
+
 
 async findAll(): Promise<any[]> {
   const payrolls = await this.payrollModel.find().lean();
