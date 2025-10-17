@@ -39,7 +39,6 @@ export class Payroll {
   @Prop() month: string;
   @Prop() year: number;
   @Prop() paymentMonth: string;
-
 }
 
 export const PayrollSchema = SchemaFactory.createForClass(Payroll);
