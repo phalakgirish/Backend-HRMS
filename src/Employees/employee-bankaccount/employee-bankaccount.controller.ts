@@ -38,7 +38,7 @@ export class EmployeeBankaccountController {
 
     @Get('employee/:employeeId')
     async getByEmployeeId(@Param('employeeId') employeeId: string) {
-        return this.employeeBankAccountService.findAllByEmpId(employeeId);
+  return this.employeeBankAccountService.findByEmployeeId(employeeId);
     }
 
     @Delete(':id')
