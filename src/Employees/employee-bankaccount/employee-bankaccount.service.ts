@@ -20,19 +20,19 @@ export class EmployeeBankaccountService {
 //   return bank;
 // }
 
-async findByEmployeeId(employeeId: string) {
-    if (!Types.ObjectId.isValid(employeeId)) {
-        throw new NotFoundException(`Invalid employee ID ${employeeId}`);
-    }
+async findByEmployeeId(empCode: string) {
+  // 1️⃣ Find employee by its 'id' field (like MIJH890)
+  const employee = await this.employeeModel.findOne({ id: empCode });
+  if (!employee) throw new NotFoundException(`Employee not found with ID ${empCode}`);
 
-    const employee = await this.employeeModel.findById(employeeId); // findById instead of findOne({ id: ... })
-    if (!employee) throw new NotFoundException(`Employee not found with ID ${employeeId}`);
+  // 2️⃣ Find bank details using employee._id
+  const bank = await this.employeeBankAccountModel.findOne({ employeeId: employee._id });
+  if (!bank) throw new NotFoundException(`Bank details not found for employee ${empCode}`);
 
-    const bank = await this.employeeBankAccountModel.findOne({ employeeId: employee._id });
-    if (!bank) throw new NotFoundException(`Bank details not found for employee ${employeeId}`);
-
-    return [bank];
+  // 3️⃣ Return the bank details as array for frontend consistency
+  return [bank];
 }
+
 
 
     async findAll() {
